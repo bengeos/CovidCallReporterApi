@@ -5,17 +5,16 @@ namespace App\Libs\Repositories;
 
 
 use App\Libs\Interfaces\DefaultInterface;
-use App\Models\Region;
+use App\Models\Zone;
 
-class RegionRepository extends DefaultRepository implements DefaultInterface
+class ZoneRepository extends DefaultRepository implements DefaultInterface
 {
-
     public function getItem($id, $queryData = null)
     {
         if ($queryData == null) {
             $queryData = array();
         }
-        return Region::where('id', '=', $id)
+        return Zone::where('id', '=', $id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -27,7 +26,7 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Region::where(function ($query) use ($queryData) {
+        return Zone::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->first();
@@ -38,7 +37,7 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Region::where(function ($query) use ($queryData) {
+        return Zone::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->get();
@@ -49,7 +48,7 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Region::where(function ($query) use ($queryData) {
+        return Zone::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->paginate($pagination_size);
@@ -57,13 +56,14 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
 
     public function addNew($inputData)
     {
-        $newRegion = new Region();
-        $newRegion->name = isset($inputData['name']) ? $inputData['name'] : null;
-        $newRegion->latitude = isset($inputData['latitude']) ? $inputData['latitude'] : null;
-        $newRegion->longitude = isset($inputData['longitude']) ? $inputData['longitude'] : null;
-        $newRegion->description = isset($inputData['description']) ? $inputData['description'] : null;
-        $newRegion->save();
-        return $newRegion;
+        $newZone = new Zone();
+        $newZone->region_id = isset($inputData['region_id']) ? $inputData['region_id'] : null;
+        $newZone->name = isset($inputData['name']) ? $inputData['name'] : null;
+        $newZone->latitude = isset($inputData['latitude']) ? $inputData['latitude'] : null;
+        $newZone->longitude = isset($inputData['longitude']) ? $inputData['longitude'] : null;
+        $newZone->description = isset($inputData['description']) ? $inputData['description'] : null;
+        $newZone->save();
+        return $newZone;
     }
 
     public function updateItem($id, $updateData, $queryData = null)
@@ -72,7 +72,7 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
             $queryData = array();
         }
         $queryData['id'] = $id;
-        return Region::where(function ($query) use ($queryData) {
+        return Zone::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -85,7 +85,7 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Region::where(function ($query) use ($queryData) {
+        return Zone::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -98,7 +98,7 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Region::where('id', '=', $id)->where(function ($query) use ($queryData) {
+        return Zone::where('id', '=', $id)->where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -111,15 +111,15 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        $regionsForDelete = Region::where(function ($query) use ($queryData) {
+        $zonesForDelete = Zone::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
         }
         )->get();
-        foreach ($regionsForDelete as $region) {
-            if ($region instanceof Region) {
-                $region->delete();
+        foreach ($zonesForDelete as $zone) {
+            if ($zone instanceof Zone) {
+                $zone->delete();
             }
         }
         return true;

@@ -5,13 +5,13 @@ namespace App\Libs\Repositories;
 
 
 use App\Libs\Interfaces\DefaultInterface;
-use App\Models\Zone;
+use App\Models\Wereda;
 
-class ZoneRepository extends DefaultRepository implements DefaultInterface
+class WeredaRepository extends DefaultRepository implements DefaultInterface
 {
 
     /**
-     * ZoneRepository constructor.
+     * WeredaRepository constructor.
      */
     public function __construct()
     {
@@ -22,7 +22,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Zone::where('id', '=', $id)
+        return Wereda::where('id', '=', $id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -34,7 +34,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Zone::where(function ($query) use ($queryData) {
+        return Wereda::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->first();
@@ -45,7 +45,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Zone::where(function ($query) use ($queryData) {
+        return Wereda::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->get();
@@ -56,7 +56,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Zone::where(function ($query) use ($queryData) {
+        return Wereda::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->paginate($pagination_size);
@@ -64,14 +64,14 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
 
     public function addNew($inputData)
     {
-        $newZone = new Zone();
-        $newZone->region_id = isset($inputData['region_id']) ? $inputData['region_id'] : null;
-        $newZone->name = isset($inputData['name']) ? $inputData['name'] : null;
-        $newZone->latitude = isset($inputData['latitude']) ? $inputData['latitude'] : null;
-        $newZone->longitude = isset($inputData['longitude']) ? $inputData['longitude'] : null;
-        $newZone->description = isset($inputData['description']) ? $inputData['description'] : null;
-        $newZone->save();
-        return $newZone;
+        $newWereda = new Wereda();
+        $newWereda->region_id = isset($inputData['zone_id']) ? $inputData['zone_id'] : null;
+        $newWereda->name = isset($inputData['name']) ? $inputData['name'] : null;
+        $newWereda->latitude = isset($inputData['latitude']) ? $inputData['latitude'] : null;
+        $newWereda->longitude = isset($inputData['longitude']) ? $inputData['longitude'] : null;
+        $newWereda->description = isset($inputData['description']) ? $inputData['description'] : null;
+        $newWereda->save();
+        return $newWereda;
     }
 
     public function updateItem($id, $updateData, $queryData = null)
@@ -80,7 +80,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
             $queryData = array();
         }
         $queryData['id'] = $id;
-        return Zone::where(function ($query) use ($queryData) {
+        return Wereda::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -93,7 +93,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Zone::where(function ($query) use ($queryData) {
+        return Wereda::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -106,7 +106,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Zone::where('id', '=', $id)->where(function ($query) use ($queryData) {
+        return Wereda::where('id', '=', $id)->where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -119,15 +119,15 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        $zonesForDelete = Zone::where(function ($query) use ($queryData) {
+        $weredasForDelete = Wereda::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
         }
         )->get();
-        foreach ($zonesForDelete as $zone) {
-            if ($zone instanceof Zone) {
-                $zone->delete();
+        foreach ($weredasForDelete as $wereda) {
+            if ($wereda instanceof Wereda) {
+                $wereda->delete();
             }
         }
         return true;

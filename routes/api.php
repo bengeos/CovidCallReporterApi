@@ -25,4 +25,11 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::post('/region', 'RegionsController@createRegion');
     Route::patch('/region', 'RegionsController@updateRegion');
     Route::delete('/region/{id}', 'RegionsController@deleteRegion');
+    //
+    Route::get('/zones', 'RegionsController@authenticate');
+    Route::get('/zones_paginated', 'RegionsController@getRegionsPaginated');
+    Route::post('/zone', 'RegionsController@createRegion');
+    Route::patch('/zone', 'RegionsController@updateRegion');
+    Route::delete('/zone/{id}', 'RegionsController@deleteRegion');
 });
+

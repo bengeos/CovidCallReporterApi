@@ -16,8 +16,18 @@ class CreateCallReportsTable extends Migration
         Schema::create('call_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('region_id')->nullable();
+            $table->unsignedBigInteger('zone_id')->nullable();
+            $table->unsignedBigInteger('wereda_id')->nullable();
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->unsignedBigInteger('sub_city_id')->nullable();
+            $table->unsignedBigInteger('kebele_id')->nullable();
             $table->integer('age')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('other')->nullable();
+            $table->enum('gender', \App\Models\CallReport::GENDER);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

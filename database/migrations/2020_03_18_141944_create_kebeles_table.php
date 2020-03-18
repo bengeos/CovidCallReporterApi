@@ -21,6 +21,7 @@ class CreateKebelesTable extends Migration
             $table->string('longitude')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

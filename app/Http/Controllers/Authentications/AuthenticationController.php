@@ -35,8 +35,12 @@ class AuthenticationController extends Controller
             }
             $adminUser = Auth::guard('web')->user();
             if ($adminUser instanceof User) {
-                $token = $adminUser->createToken('web')->accessToken;
-                return response()->json(['status' => true, 'message' => 'authenticated successful', 'result' => $adminUser, 'token' => $token, 'user_type' => 1], 200);
+                if ($adminUser->is_active) {
+                    $token = $adminUser->createToken('web')->accessToken;
+                    return response()->json(['status' => true, 'message' => 'authenticated successful', 'result' => $adminUser, 'token' => $token], 200);
+                } else {
+                    return response()->json(['status' => false, 'message' => 'whoops! inactive account', 'result' => null, 'error' => 'inactive account',], 500);
+                }
             }
         } catch (\Exception $exception) {
             return response()->json(['status' => false, 'result' => null, 'message' => 'whoops! exception has occurred', 'error' => $exception->getMessage()], 500);

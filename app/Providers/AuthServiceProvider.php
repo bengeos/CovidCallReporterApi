@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\City;
 use App\Models\Region;
+use App\Models\Wereda;
 use App\Models\Zone;
+use App\Policies\CityPolicies;
 use App\Policies\RegionsPolicies;
+use App\Policies\WeredaPolicies;
 use App\Policies\ZonePolicies;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -21,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Model' => 'App\Policies\ModelPolicy',
         Region::class => RegionsPolicies::class,
         Zone::class => ZonePolicies::class,
+        Wereda::class => WeredaPolicies::class,
+        City::class => CityPolicies::class
     ];
 
     /**

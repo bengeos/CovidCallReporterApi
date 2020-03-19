@@ -19,46 +19,47 @@ class WeredaController extends Controller
      */
     public function __construct(WeredaRepository $weredaRepository)
     {
+        $this->middleware('auth:api');
         $this->weredaRepoCtl = $weredaRepository;
     }
 
-    public function getZonesList()
+    public function getWeredasList($zone_id)
     {
         try {
             $this->authorize('view', new Wereda());
-            $regions = $this->weredaRepoCtl->getAll();
-            return response()->json(['status' => true, 'message' => 'wereda fetched successfully', 'result' => $regions, 'error' => null], 200);
+            $weredas = $this->weredaRepoCtl->getAllByZone($zone_id);
+            return response()->json(['status' => true, 'message' => 'weredas fetched successfully', 'result' => $weredas, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         }
     }
 
-    public function getZonesPaginated()
+    public function getWeredasPaginated($zone_id)
     {
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
             $this->authorize('view', new Wereda());
-            $countries = $this->weredaRepoCtl->getAllPaginated($PAGINATE_NUM);
-            return response()->json(['status' => true, 'message' => 'wereda fetched successfully', 'result' => $countries, 'error' => null], 200);
+            $weredas = $this->weredaRepoCtl->getAllByZonePaginated($zone_id, $PAGINATE_NUM);
+            return response()->json(['status' => true, 'message' => 'weredas fetched successfully', 'result' => $weredas, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         }
     }
 
-    public function createZone()
+    public function createWereda()
     {
         try {
             $this->authorize('create', new Wereda());
             $credential = request()->all();
-            $rule = ['name' => 'required'];
+            $rule = ['zone_id' => 'required', 'name' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $newRegion = $this->weredaRepoCtl->addNew($credential);
-            if ($newRegion) {
-                return response()->json(['status' => true, 'message' => 'wereda created successfully', 'result' => $newRegion, 'error' => null], 200);
+            $newWereda = $this->weredaRepoCtl->addNew($credential);
+            if ($newWereda instanceof Wereda) {
+                return response()->json(['status' => true, 'message' => 'wereda created successfully', 'result' => $newWereda, 'error' => null], 200);
             } else {
                 return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => 'something went wrong! try again'], 500);
             }
@@ -80,9 +81,10 @@ class WeredaController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $updatedRegion = $this->weredaRepoCtl->updateItem($credential['id'], $credential);
-            if ($updatedRegion instanceof User) {
-                return response()->json(['status' => true, 'message' => 'wereda updated successfully', 'result' => $updatedRegion, 'error' => null], 200);
+            $updatedWeredaStatus = $this->weredaRepoCtl->updateItem($credential['id'], $credential);
+            if ($updatedWeredaStatus) {
+                $updatedWereda = $this->weredaRepoCtl->getItem($credential['id']);
+                return response()->json(['status' => true, 'message' => 'wereda updated successfully', 'result' => $updatedWereda, 'error' => null], 200);
             } else {
                 return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => null], 500);
             }

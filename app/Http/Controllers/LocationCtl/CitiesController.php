@@ -5,8 +5,6 @@ namespace App\Http\Controllers\LocationCtl;
 use App\Http\Controllers\Controller;
 use App\Libs\Repositories\CitiesRepository;
 use App\Models\City;
-use App\Models\Wereda;
-use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,13 +19,14 @@ class CitiesController extends Controller
      */
     public function __construct(CitiesRepository $citiesRepository)
     {
+        $this->middleware('auth:api');
         $this->citiesRepoCtl = $citiesRepository;
     }
 
-    public function getCitiesList()
+    public function getCitiesList($wereda_id)
     {
         try {
-            $this->authorize('view', new Wereda());
+            $this->authorize('view', new City());
             $cities = $this->citiesRepoCtl->getAll();
             return response()->json(['status' => true, 'message' => 'cities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {
@@ -39,7 +38,7 @@ class CitiesController extends Controller
     {
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
-            $this->authorize('view', new Wereda());
+            $this->authorize('view', new City());
             $cities = $this->citiesRepoCtl->getAllPaginated($PAGINATE_NUM);
             return response()->json(['status' => true, 'message' => 'cities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {

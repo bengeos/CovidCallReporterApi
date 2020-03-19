@@ -81,9 +81,10 @@ class ZoneController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $updatedRegion = $this->zoneRepositoryCtl->updateItem($credential['id'], $credential);
-            if ($updatedRegion instanceof User) {
-                return response()->json(['status' => true, 'message' => 'zone updated successfully', 'result' => $updatedRegion, 'error' => null], 200);
+            $updatedZoneStatus = $this->zoneRepositoryCtl->updateItem($credential['id'], $credential);
+            if ($updatedZoneStatus) {
+                $updatedZone = $this->zoneRepositoryCtl->getItem($credential['id']);
+                return response()->json(['status' => true, 'message' => 'zone updated successfully', 'result' => $updatedZone, 'error' => null], 200);
             } else {
                 return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => null], 500);
             }

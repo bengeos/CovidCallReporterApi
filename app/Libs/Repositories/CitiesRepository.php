@@ -4,10 +4,11 @@
 namespace App\Libs\Repositories;
 
 
+use App\Libs\Interfaces\CityInterface;
 use App\Libs\Interfaces\DefaultInterface;
 use App\Models\City;
 
-class CitiesRepository extends DefaultRepository implements DefaultInterface
+class CitiesRepository extends DefaultRepository implements CityInterface
 {
 
     /**
@@ -62,10 +63,34 @@ class CitiesRepository extends DefaultRepository implements DefaultInterface
             ->paginate($pagination_size);
     }
 
+    public function getAllByWereda($wereda_id, $queryData = null)
+    {
+        if ($queryData == null) {
+            $queryData = array();
+        }
+        return City::where('wereda_id', '=', $wereda_id)
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
+            ->get();
+    }
+
+    public function getAllByWeredaPaginated($wereda_id, $pagination_size = 10, $queryData = null)
+    {
+        if ($queryData == null) {
+            $queryData = array();
+        }
+        return City::where('wereda_id', '=', $wereda_id)
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
+            ->paginate($pagination_size);
+    }
+
     public function addNew($inputData)
     {
         $newCity = new City();
-        $newCity->region_id = isset($inputData['wereda_id']) ? $inputData['wereda_id'] : null;
+        $newCity->wereda_id = isset($inputData['wereda_id']) ? $inputData['wereda_id'] : null;
         $newCity->name = isset($inputData['name']) ? $inputData['name'] : null;
         $newCity->latitude = isset($inputData['latitude']) ? $inputData['latitude'] : null;
         $newCity->longitude = isset($inputData['longitude']) ? $inputData['longitude'] : null;

@@ -29,7 +29,19 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::get('/zones/{id}', 'ZoneController@getZonesList');
     Route::get('/zones_paginated/{id}', 'ZoneController@getZonesPaginated');
     Route::post('/zone', 'ZoneController@createZone');
-    Route::patch('/zone', 'ZoneController@updateRegion');
-    Route::delete('/zone/{id}', 'ZoneController@deleteRegion');
+    Route::patch('/zone', 'ZoneController@updateZone');
+    Route::delete('/zone/{id}', 'ZoneController@deleteZone');
+
+    Route::get('/weredas/{id}', 'WeredaController@getWeredasList');
+    Route::get('/weredas_paginated/{id}', 'WeredaController@getWeredasPaginated');
+    Route::post('/wereda', 'WeredaController@createWereda');
+    Route::patch('/wereda', 'WeredaController@updateWereda');
+    Route::delete('/wereda/{id}', 'WeredaController@deleteWereda');
+
+    Route::get('/cities/{id}', 'CitiesController@getCitiesList');
+    Route::get('/cities_paginated/{id}', 'CitiesController@getCitiesPaginated');
+    Route::post('/city', 'CitiesController@createCity');
+    Route::patch('/city', 'CitiesController@updateCity');
+    Route::delete('/city/{id}', 'CitiesController@deleteCity');
 });
 

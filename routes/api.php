@@ -20,7 +20,7 @@ Route::group(['namespace' => 'Authentications'], function () {
 });
 
 Route::group(['namespace' => 'LocationCtl'], function () {
-    Route::get('/regions', 'RegionsController@authenticate');
+    Route::get('/regions', 'RegionsController@getRegionsList');
     Route::get('/regions_paginated', 'RegionsController@getRegionsPaginated');
     Route::post('/region', 'RegionsController@createRegion');
     Route::patch('/region', 'RegionsController@updateRegion');

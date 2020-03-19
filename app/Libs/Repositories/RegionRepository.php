@@ -71,13 +71,13 @@ class RegionRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        $queryData['id'] = $id;
-        return Region::where(function ($query) use ($queryData) {
-            if ($queryData) {
-                $this->queryBuilder($query, $queryData);
+        return Region::where('id', '=', $id)
+            ->where(function ($query) use ($queryData) {
+                if ($queryData) {
+                    $this->queryBuilder($query, $queryData);
+                }
             }
-        }
-        )->update($updateData);
+            )->update($updateData);
     }
 
     public function updateItemBy($queryData, $updateData)

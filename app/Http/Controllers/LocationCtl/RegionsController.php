@@ -75,7 +75,6 @@ class RegionsController extends Controller
     {
         try {
             $this->authorize('update', new Region());
-            $user = Auth::guard('api')->user();
             $credential = request()->all();
             $rule = ['id' => 'required'];
             $validator = Validator::make($credential, $rule);
@@ -83,8 +82,9 @@ class RegionsController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $updatedRegion = $this->regionCtrl->updateItem($credential['id'], $credential);
-            if ($updatedRegion instanceof User) {
+            $updatedRegionStatus = $this->regionCtrl->updateItem($credential['id'], $credential);
+            if ($updatedRegionStatus) {
+                $updatedRegion = $this->regionCtrl->getItem($credential['id']);
                 return response()->json(['status' => true, 'message' => 'region updated successfully', 'result' => $updatedRegion, 'error' => null], 200);
             } else {
                 return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => null], 500);

@@ -22,6 +22,7 @@ class CreateCitiesTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('wereda_id')->references('id')->on('weredas')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -22,6 +22,7 @@ class CreateZonesTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

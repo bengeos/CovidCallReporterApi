@@ -22,6 +22,7 @@ class CreateKebelesTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('sub_city_id')->references('id')->on('sub_cities')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -22,6 +22,7 @@ class CreateSubCitiesTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -19,27 +19,28 @@ class ZoneController extends Controller
      */
     public function __construct(ZoneRepository $zoneRepositoryCtl)
     {
+        $this->middleware('auth:api');
         $this->zoneRepositoryCtl = $zoneRepositoryCtl;
     }
 
-    public function getZonesList()
+    public function getZonesList($region_id)
     {
         try {
             $this->authorize('view', new Zone());
-            $regions = $this->zoneRepositoryCtl->getAll();
-            return response()->json(['status' => true, 'message' => 'zones fetched successfully', 'result' => $regions, 'error' => null], 200);
+            $zones = $this->zoneRepositoryCtl->getAllByRegion($region_id);
+            return response()->json(['status' => true, 'message' => 'zones fetched successfully', 'result' => $zones, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         }
     }
 
-    public function getZonesPaginated()
+    public function getZonesPaginated($region_id)
     {
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
             $this->authorize('view', new Zone());
-            $countries = $this->zoneRepositoryCtl->getAllPaginated($PAGINATE_NUM);
-            return response()->json(['status' => true, 'message' => 'zones fetched successfully', 'result' => $countries, 'error' => null], 200);
+            $zones = $this->zoneRepositoryCtl->getAllByRegionPaginated($region_id, $PAGINATE_NUM);
+            return response()->json(['status' => true, 'message' => 'zones fetched successfully', 'result' => $zones, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         }
@@ -50,7 +51,7 @@ class ZoneController extends Controller
         try {
             $this->authorize('create', new Zone());
             $credential = request()->all();
-            $rule = ['name' => 'required'];
+            $rule = ['region_id' => 'required', 'name' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
                 $error = $validator->messages();

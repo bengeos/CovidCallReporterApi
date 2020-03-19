@@ -5,9 +5,10 @@ namespace App\Libs\Repositories;
 
 
 use App\Libs\Interfaces\DefaultInterface;
+use App\Libs\Interfaces\ZoneInterface;
 use App\Models\Zone;
 
-class ZoneRepository extends DefaultRepository implements DefaultInterface
+class ZoneRepository extends DefaultRepository implements ZoneInterface
 {
 
     /**
@@ -45,7 +46,7 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Zone::where(function ($query) use ($queryData) {
+        return Zone::with('region')->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->get();
@@ -57,6 +58,29 @@ class ZoneRepository extends DefaultRepository implements DefaultInterface
             $queryData = array();
         }
         return Zone::where(function ($query) use ($queryData) {
+            $this->queryBuilder($query, $queryData);
+        })
+            ->paginate($pagination_size);
+    }
+
+    public function getAllByRegion($region_id, $queryData = null)
+    {
+        if ($queryData == null) {
+            $queryData = array();
+        }
+        return Zone::with('region')->where('region_id', '=', $region_id)
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
+            ->get();
+    }
+
+    public function getAllByRegionPaginated($region_id, $pagination_size = 10, $queryData = null)
+    {
+        if ($queryData == null) {
+            $queryData = array();
+        }
+        return Zone::with('region')->where('region_id', '=', $region_id)->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->paginate($pagination_size);

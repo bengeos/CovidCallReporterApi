@@ -28,6 +28,12 @@ class CreateCallReportsTable extends Migration
             $table->enum('gender', \App\Models\CallReport::GENDER);
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('zone_id')->references('id')->on('zones')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('wereda_id')->references('id')->on('weredas')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('sub_city_id')->references('id')->on('sub_cities')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('kebele_id')->references('id')->on('kebeles')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

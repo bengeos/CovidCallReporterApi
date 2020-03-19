@@ -22,6 +22,7 @@ class CreateWeredasTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('zone_id')->references('id')->on('zones')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

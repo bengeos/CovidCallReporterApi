@@ -26,10 +26,10 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::patch('/region', 'RegionsController@updateRegion');
     Route::delete('/region/{id}', 'RegionsController@deleteRegion');
     //
-    Route::get('/zones', 'RegionsController@authenticate');
-    Route::get('/zones_paginated', 'RegionsController@getRegionsPaginated');
-    Route::post('/zone', 'RegionsController@createRegion');
-    Route::patch('/zone', 'RegionsController@updateRegion');
-    Route::delete('/zone/{id}', 'RegionsController@deleteRegion');
+    Route::get('/zones/{id}', 'ZoneController@getZonesList');
+    Route::get('/zones_paginated/{id}', 'ZoneController@getZonesPaginated');
+    Route::post('/zone', 'ZoneController@createZone');
+    Route::patch('/zone', 'ZoneController@updateRegion');
+    Route::delete('/zone/{id}', 'ZoneController@deleteRegion');
 });
 

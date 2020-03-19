@@ -7,7 +7,6 @@ use App\Libs\Repositories\WeredaRepository;
 use App\Models\Wereda;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class WeredaController extends Controller

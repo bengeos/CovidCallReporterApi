@@ -8,8 +8,10 @@ use App\Models\Wereda;
 use App\Models\Zone;
 use App\Policies\CityPolicies;
 use App\Policies\RegionsPolicies;
+use App\Policies\UsersPolicies;
 use App\Policies\WeredaPolicies;
 use App\Policies\ZonePolicies;
+use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
@@ -26,7 +28,8 @@ class AuthServiceProvider extends ServiceProvider
         Region::class => RegionsPolicies::class,
         Zone::class => ZonePolicies::class,
         Wereda::class => WeredaPolicies::class,
-        City::class => CityPolicies::class
+        City::class => CityPolicies::class,
+        User::class => UsersPolicies::class,
     ];
 
     /**

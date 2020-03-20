@@ -45,3 +45,9 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::delete('/city/{id}', 'CitiesController@deleteCity');
 });
 
+Route::group(['namespace' => 'Users'], function () {
+    Route::get('/users', 'UsersController@getUsersList');
+    Route::get('/users_paginated', 'UsersController@getUsersPaginated');
+    Route::post('/user', 'UsersController@register');
+});
+

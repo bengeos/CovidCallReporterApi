@@ -27,19 +27,19 @@ class CitiesController extends Controller
     {
         try {
             $this->authorize('view', new City());
-            $cities = $this->citiesRepoCtl->getAll();
+            $cities = $this->citiesRepoCtl->getAllByWereda($wereda_id);
             return response()->json(['status' => true, 'message' => 'cities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         }
     }
 
-    public function getCitiesPaginated()
+    public function getCitiesPaginated($wereda_id)
     {
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
             $this->authorize('view', new City());
-            $cities = $this->citiesRepoCtl->getAllPaginated($PAGINATE_NUM);
+            $cities = $this->citiesRepoCtl->getAllByWeredaPaginated($wereda_id, $PAGINATE_NUM);
             return response()->json(['status' => true, 'message' => 'cities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
@@ -51,7 +51,7 @@ class CitiesController extends Controller
         try {
             $this->authorize('create', new City());
             $credential = request()->all();
-            $rule = ['name' => 'required'];
+            $rule = ['wereda_id'=>'required', 'name' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
                 $error = $validator->messages();
@@ -81,8 +81,9 @@ class CitiesController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $updatedCity = $this->citiesRepoCtl->updateItem($credential['id'], $credential);
-            if ($updatedCity instanceof City) {
+            $updatedCityStatus = $this->citiesRepoCtl->updateItem($credential['id'], $credential);
+            if ($updatedCityStatus) {
+                $updatedCity = $this->citiesRepoCtl->getItem($credential['id']);
                 return response()->json(['status' => true, 'message' => 'cities updated successfully', 'result' => $updatedCity, 'error' => null], 200);
             } else {
                 return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => null], 500);

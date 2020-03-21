@@ -15,6 +15,9 @@ class RoleSeeder extends Seeder
         $roles = array(
             array('id' => 1, 'name' => 'Super Admin', 'description' => 'Default Super Admin', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
             array('id' => 2, 'name' => 'Syste Admin', 'description' => 'Default Super Viewer', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
+            array('id' => 3, 'name' => 'Call Reporter', 'description' => 'Default Call Reporter', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
+            array('id' => 4, 'name' => 'Task Force', 'description' => 'Default Task Force', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
+            array('id' => 5, 'name' => 'Rapid Response', 'description' => 'Default Rapid Response', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
         );
         Role::insert($roles);
     }

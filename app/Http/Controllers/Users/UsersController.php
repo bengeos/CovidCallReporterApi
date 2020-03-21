@@ -25,6 +25,17 @@ class UsersController extends Controller
         $this->usersRepository = $repository;
     }
 
+    public function getRoleList()
+    {
+        try {
+            $this->authorize('view', new User());
+            $roles = Role::all();
+            return response()->json(['status' => true, 'message' => 'roles fetched successfully', 'result' => $roles, 'error' => null], 200);
+        } catch (AuthorizationException $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
+        }
+    }
+
     public function getUsersList()
     {
         try {

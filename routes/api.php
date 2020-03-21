@@ -46,6 +46,8 @@ Route::group(['namespace' => 'LocationCtl'], function () {
 });
 
 Route::group(['namespace' => 'Users'], function () {
+    Route::get('/roles', 'UsersController@getRoleList');
+
     Route::get('/users', 'UsersController@getUsersList');
     Route::get('/users_paginated', 'UsersController@getUsersPaginated');
     Route::post('/user', 'UsersController@register');

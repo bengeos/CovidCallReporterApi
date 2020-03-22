@@ -21,10 +21,12 @@ class CreateCallReportsTable extends Migration
             $table->unsignedBigInteger('city_id')->nullable();
             $table->unsignedBigInteger('sub_city_id')->nullable();
             $table->unsignedBigInteger('kebele_id')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->integer('age')->nullable();
             $table->string('phone')->nullable();
             $table->string('occupation')->nullable();
             $table->string('other')->nullable();
+            $table->string('report_type')->nullable();
             $table->enum('gender', \App\Models\CallReport::GENDER);
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +36,7 @@ class CreateCallReportsTable extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('sub_city_id')->references('id')->on('sub_cities')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('kebele_id')->references('id')->on('kebeles')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

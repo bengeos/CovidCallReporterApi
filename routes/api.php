@@ -47,9 +47,16 @@ Route::group(['namespace' => 'LocationCtl'], function () {
 
 Route::group(['namespace' => 'Users'], function () {
     Route::get('/roles', 'UsersController@getRoleList');
-
     Route::get('/users', 'UsersController@getUsersList');
     Route::get('/users_paginated', 'UsersController@getUsersPaginated');
     Route::post('/user', 'UsersController@register');
+});
+
+Route::group(['namespace' => 'Users'], function () {
+    Route::get('/call_reports_paginated_by_user', 'CallReportsController@getReportsByUserPaginated');
+    Route::get('/call_reports_paginated', 'CallReportsController@getReportsPaginated');
+    Route::post('/call_report', 'CallReportsController@createCallReport');
+    Route::patch('/call_report', 'CallReportsController@updateCallReport');
+    Route::delete('/call_report/{id}', 'CallReportsController@deleteCallReport');
 });
 

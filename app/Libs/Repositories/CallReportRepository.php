@@ -62,6 +62,19 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
             ->paginate($pagination_size);
     }
 
+    public function getAllByUserPaginated($user_id, $pagination_size = 10, $queryData = null)
+    {
+        if ($queryData == null) {
+            $queryData = array();
+        }
+        return CallReport::where('created_by', '=', $user_id)
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
+            ->paginate($pagination_size);
+    }
+
+
     public function addNew($inputData)
     {
         $newCallReport = new CallReport();

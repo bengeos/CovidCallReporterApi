@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\CallReport;
 use App\Models\City;
 use App\Models\Region;
 use App\Models\Wereda;
 use App\Models\Zone;
+use App\Policies\CallReportPolicies;
 use App\Policies\CityPolicies;
 use App\Policies\RegionsPolicies;
 use App\Policies\UsersPolicies;
@@ -15,6 +17,7 @@ use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
+use Prophecy\Call\Call;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,6 +33,7 @@ class AuthServiceProvider extends ServiceProvider
         Wereda::class => WeredaPolicies::class,
         City::class => CityPolicies::class,
         User::class => UsersPolicies::class,
+        CallReport::class => CallReportPolicies::class,
     ];
 
     /**

@@ -45,18 +45,30 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::delete('/city/{id}', 'CitiesController@deleteCity');
 });
 
+Route::group(['namespace' => 'Reports'], function () {
+    Route::get('/call_rumor_types', 'CallReportsController@getCallRumorTypes');
+    Route::get('/call_reports_paginated_by_user', 'CallReportsController@getReportsByUserPaginated');
+    Route::get('/all_call_reports_paginated', 'CallReportsController@getAllCallReportsPaginated');
+    Route::get('/new_call_reports_paginated', 'CallReportsController@getNewCallReportsPaginated');
+
+    Route::get('/all_rapid_call_reports_paginated', 'CallReportsController@getNewRapidCallReportsPaginated');
+    Route::get('/new_followup_call_reports_paginated', 'CallReportsController@getNewFollowupCallReportsPaginated');
+    Route::post('/call_report', 'CallReportsController@createCallReport');
+    Route::patch('/call_report', 'CallReportsController@updateCallReport');
+    Route::patch('/call_report_status', 'CallReportsController@updateCallReportStatus');
+    Route::delete('/call_report/{id}', 'CallReportsController@deleteCallReport');
+});
+
 Route::group(['namespace' => 'Users'], function () {
     Route::get('/roles', 'UsersController@getRoleList');
     Route::get('/users', 'UsersController@getUsersList');
     Route::get('/users_paginated', 'UsersController@getUsersPaginated');
-    Route::post('/user', 'UsersController@register');
+    Route::post('/user', 'UsersController@createUser');
+    Route::patch('/user', 'UsersController@updateUsers');
+    Route::patch('/user/{id}', 'UsersController@deleteUser');
 });
 
-Route::group(['namespace' => 'Users'], function () {
-    Route::get('/call_reports_paginated_by_user', 'CallReportsController@getReportsByUserPaginated');
-    Route::get('/call_reports_paginated', 'CallReportsController@getReportsPaginated');
-    Route::post('/call_report', 'CallReportsController@createCallReport');
-    Route::patch('/call_report', 'CallReportsController@updateCallReport');
-    Route::delete('/call_report/{id}', 'CallReportsController@deleteCallReport');
+Route::group(['namespace' => 'Reports'], function () {
+    Route::get('/pull_request_payload', 'CallReportsController@pullPayload');
 });
 

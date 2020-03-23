@@ -56,9 +56,23 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return CallReport::where(function ($query) use ($queryData) {
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'call_rumor_types')
+            ->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
+            ->orderBy('id', 'DESC')
+            ->paginate($pagination_size);
+    }
+    public function getNewPaginated($pagination_size = 10, $queryData = null)
+    {
+        if ($queryData == null) {
+            $queryData = array();
+        }
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'call_rumor_types')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
+            ->orderBy('id', 'DESC')
             ->paginate($pagination_size);
     }
 
@@ -67,10 +81,12 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return CallReport::where('created_by', '=', $user_id)
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'call_rumor_types')
+            ->where('created_by', '=', $user_id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
+            ->orderBy('id', 'DESC')
             ->paginate($pagination_size);
     }
 
@@ -84,11 +100,14 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         $newCallReport->city_id = isset($inputData['city_id']) ? $inputData['city_id'] : null;
         $newCallReport->sub_city_id = isset($inputData['sub_city_id']) ? $inputData['sub_city_id'] : null;
         $newCallReport->kebele_id = isset($inputData['kebele_id']) ? $inputData['kebele_id'] : null;
+        $newCallReport->report_type = isset($inputData['report_type']) ? $inputData['report_type'] : null;
+        $newCallReport->full_name = isset($inputData['full_name']) ? $inputData['full_name'] : null;
         $newCallReport->age = isset($inputData['age']) ? $inputData['age'] : null;
         $newCallReport->gender = isset($inputData['gender']) ? $inputData['gender'] : null;
         $newCallReport->phone = isset($inputData['phone']) ? $inputData['phone'] : null;
         $newCallReport->occupation = isset($inputData['occupation']) ? $inputData['occupation'] : null;
         $newCallReport->other = isset($inputData['other']) ? $inputData['other'] : null;
+        $newCallReport->created_by = isset($inputData['created_by']) ? $inputData['created_by'] : null;
         $newCallReport->save();
         return $newCallReport;
     }
@@ -98,8 +117,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        $queryData['id'] = $id;
-        return CallReport::where(function ($query) use ($queryData) {
+        return CallReport::where('id', '=', $id)->where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }

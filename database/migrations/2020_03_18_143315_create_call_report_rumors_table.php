@@ -19,6 +19,8 @@ class CreateCallReportRumorsTable extends Migration
             $table->unsignedBigInteger('call_rumor_type_id');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('call_report_id')->references('id')->on('call_reports')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('call_rumor_type_id')->references('id')->on('call_rumor_types')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

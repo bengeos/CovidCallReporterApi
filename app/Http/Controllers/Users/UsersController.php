@@ -63,7 +63,7 @@ class UsersController extends Controller
     {
         try {
             $this->authorize('create', new User());
-            $user = Auth::guard('admin_api')->user();
+            $user = Auth::guard('api')->user();
             $credential = request()->all();
             $rule = ['full_name' => 'required', 'email' => 'required|email', 'role_id' => 'required'];
             $validator = Validator::make($credential, $rule);
@@ -94,7 +94,7 @@ class UsersController extends Controller
     {
         try {
             $this->authorize('update', new User());
-            $user = Auth::guard('admin_api')->user();
+            $user = Auth::guard('api')->user();
             $credential = request()->all();
             $rule = ['id' => 'required'];
             $validator = Validator::make($credential, $rule);
@@ -102,8 +102,12 @@ class UsersController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $credential['user_id'] = $user->id;
-            $updatedUser = $this->usersRepository->updateItem($credential['id'], $credential);
+            $updateData = array();
+            $updateData['role_id'] = isset($credential['role_id'])? $credential['role_id']: null;
+            $updateData['full_name'] = isset($credential['full_name'])? $credential['full_name']: null;
+            $updateData['email'] = isset($credential['email'])? $credential['email']: null;
+            $updateData['phone'] = isset($credential['phone'])? $credential['phone']: null;
+            $updatedUser = $this->usersRepository->updateItem($credential['id'], $updateData);
             if ($updatedUser instanceof User) {
                 return response()->json(['status' => true, 'message' => 'admin users updated successfully', 'result' => $updatedUser, 'error' => null], 200);
             } else {
@@ -120,7 +124,7 @@ class UsersController extends Controller
     {
         try {
             $this->authorize('delete', new User());
-            $user = Auth::guard('admin_api')->user();
+            $user = Auth::guard('api')->user();
             $queryData = array();
             $queryData['id!=:V'] = $user->id;
             $status = $this->usersRepository->deleteItem($id, $queryData);

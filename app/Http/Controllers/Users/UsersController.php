@@ -65,7 +65,7 @@ class UsersController extends Controller
             $this->authorize('create', new User());
             $user = Auth::guard('api')->user();
             $credential = request()->all();
-            $rule = ['full_name' => 'required', 'email' => 'required|email', 'role_id' => 'required'];
+            $rule = ['full_name' => 'required', 'email' => 'required|email', 'role_id' => 'required', 'password' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
                 $error = $validator->messages();
@@ -73,7 +73,6 @@ class UsersController extends Controller
             }
             $selectedRole = Role::where('id', '=', $credential['role_id'])->first();
             if ($selectedRole instanceof Role) {
-                $credential['user_id'] = $user->id;
                 $newUser = $this->usersRepository->addNew($credential);
                 if ($newUser) {
                     return response()->json(['status' => true, 'message' => 'admin users created successfully', 'result' => $newUser, 'error' => null], 200);

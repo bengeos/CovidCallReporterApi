@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
          $this->call(RoleSeeder::class);
          $this->call(CallRumorTypesSeeder::class);
+         $this->call(RegionsSeeder::class);
     }
 }

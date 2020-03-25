@@ -56,7 +56,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'call_rumor_types')
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types')
             ->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
@@ -68,7 +68,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'call_rumor_types')
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types')
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -81,7 +81,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'call_rumor_types')
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types')
             ->where('created_by', '=', $user_id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);

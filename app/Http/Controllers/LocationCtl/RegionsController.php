@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 class RegionsController extends Controller
 {
     protected $regionCtrl;
+
     /**
      * RegionsController constructor.
      * @param RegionRepository $regionRepository
@@ -26,7 +27,8 @@ class RegionsController extends Controller
         $this->regionCtrl = $regionRepository;
     }
 
-    public function getRegionsList() {
+    public function getRegionsList()
+    {
         try {
             $this->authorize('view', new Region());
             $regions = $this->regionCtrl->getAll();
@@ -36,7 +38,8 @@ class RegionsController extends Controller
         }
     }
 
-    public function getRegionsPaginated() {
+    public function getRegionsPaginated()
+    {
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
             $this->authorize('view', new Region());

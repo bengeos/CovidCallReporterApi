@@ -23,11 +23,24 @@ class CitiesController extends Controller
         $this->citiesRepoCtl = $citiesRepository;
     }
 
+    public function getCitiesListByRegion($region_id)
+    {
+        try {
+            $this->authorize('view', new City());
+            $query = array();
+            $cities = $this->citiesRepoCtl->getAllByRegion($region_id);
+            return response()->json(['status' => true, 'message' => 'cities fetched successfully', 'result' => $cities, 'error' => null], 200);
+        } catch (AuthorizationException $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
+        }
+    }
     public function getCitiesList($wereda_id)
     {
         try {
             $this->authorize('view', new City());
-            $cities = $this->citiesRepoCtl->getAllByWereda($wereda_id);
+            $query = array();
+            $query['wereda_id'] = $wereda_id;
+            $cities = $this->citiesRepoCtl->getAll($query);
             return response()->json(['status' => true, 'message' => 'cities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
@@ -39,7 +52,8 @@ class CitiesController extends Controller
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
             $this->authorize('view', new City());
-            $cities = $this->citiesRepoCtl->getAllByWeredaPaginated($wereda_id, $PAGINATE_NUM);
+            $query['wereda_id'] = $wereda_id;
+            $cities = $this->citiesRepoCtl->getAllPaginated($PAGINATE_NUM, $query);
             return response()->json(['status' => true, 'message' => 'cities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);

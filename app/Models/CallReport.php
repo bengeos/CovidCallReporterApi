@@ -40,9 +40,8 @@ class CallReport extends Model
     public function created_by() {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
-
-    public function call_rumor_types() {
-        return $this->hasMany(CallReportRumor::class)->with('call_rumor_type');
+    public function rumor_types() {
+        return $this->hasManyThrough(CallRumorType::class, CallReportRumor::class, 'call_report_id', 'id');
     }
 
 

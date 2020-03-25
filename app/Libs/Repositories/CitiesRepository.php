@@ -7,6 +7,8 @@ namespace App\Libs\Repositories;
 use App\Libs\Interfaces\CityInterface;
 use App\Libs\Interfaces\DefaultInterface;
 use App\Models\City;
+use App\Models\Wereda;
+use App\Models\Zone;
 
 class CitiesRepository extends DefaultRepository implements CityInterface
 {
@@ -23,7 +25,7 @@ class CitiesRepository extends DefaultRepository implements CityInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return City::where('id', '=', $id)
+        return City::with('wereda')->where('id', '=', $id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -35,7 +37,7 @@ class CitiesRepository extends DefaultRepository implements CityInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return City::where(function ($query) use ($queryData) {
+        return City::with('wereda')->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->first();
@@ -46,7 +48,7 @@ class CitiesRepository extends DefaultRepository implements CityInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return City::where(function ($query) use ($queryData) {
+        return City::with('wereda')->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->get();
@@ -57,36 +59,25 @@ class CitiesRepository extends DefaultRepository implements CityInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return City::where(function ($query) use ($queryData) {
+        return City::with('wereda')->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->paginate($pagination_size);
     }
 
-    public function getAllByWereda($wereda_id, $queryData = null)
+    public function getAllByRegion($region_id, $queryData = null)
     {
         if ($queryData == null) {
             $queryData = array();
         }
-        return City::with('wereda')->where('wereda_id', '=', $wereda_id)
+        $zones = Zone::where('region_id', '=', $region_id)->select('id')->get();
+        $weredas = Wereda::whereIn('zone_id', $zones)->select('id')->get();
+        return City::with('wereda')->whereIn('wereda_id', $weredas)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
             ->get();
     }
-
-    public function getAllByWeredaPaginated($wereda_id, $pagination_size = 10, $queryData = null)
-    {
-        if ($queryData == null) {
-            $queryData = array();
-        }
-        return City::with('wereda')->where('wereda_id', '=', $wereda_id)
-            ->where(function ($query) use ($queryData) {
-                $this->queryBuilder($query, $queryData);
-            })
-            ->paginate($pagination_size);
-    }
-
     public function addNew($inputData)
     {
         $newCity = new City();

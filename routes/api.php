@@ -39,6 +39,7 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::delete('/wereda/{id}', 'WeredaController@deleteWereda');
 
     Route::get('/cities/{id}', 'CitiesController@getCitiesList');
+    Route::get('/cities_by_region/{id}', 'CitiesController@getCitiesListByRegion');
     Route::get('/cities_paginated/{id}', 'CitiesController@getCitiesPaginated');
     Route::post('/city', 'CitiesController@createCity');
     Route::patch('/city', 'CitiesController@updateCity');

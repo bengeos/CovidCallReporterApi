@@ -73,7 +73,7 @@ Route::group(['namespace' => 'Users'], function () {
     Route::post('/user', 'UsersController@createUser');
     Route::patch('/user', 'UsersController@updateUsers');
     Route::patch('/user_status', 'UsersController@updateUserStatus');
-    Route::patch('/user/{id}', 'UsersController@deleteUser');
+    Route::delete('/user/{id}', 'UsersController@deleteUser');
 });
 
 Route::group(['namespace' => 'Reports'], function () {

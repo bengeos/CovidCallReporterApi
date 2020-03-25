@@ -105,8 +105,7 @@ class UsersRepository extends DefaultRepository implements UserInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        $queryData['id'] = $id;
-        return User::where(function ($query) use ($queryData) {
+        return User::where('id', '=', $id)->where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }

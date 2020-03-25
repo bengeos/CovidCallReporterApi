@@ -120,6 +120,31 @@ class UsersController extends Controller
         }
     }
 
+    public function updateUserStatus()
+    {
+        try {
+            $this->authorize('update', new User());
+            $user = Auth::guard('api')->user();
+            $credential = request()->all('id', 'is_active');
+            $rule = ['id' => 'required'];
+            $validator = Validator::make($credential, $rule);
+            if ($validator->fails()) {
+                $error = $validator->messages();
+                return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
+            }
+            $updatedUserStatus = $this->usersRepository->updateItem($credential['id'], $credential);
+            if ($updatedUserStatus) {
+                return response()->json(['status' => true, 'message' => 'admin users status updated successfully', 'result' => $updatedUserStatus, 'error' => null], 200);
+            } else {
+                return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => null], 500);
+            }
+        } catch (AuthorizationException $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
+        } catch (\Throwable $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
+        }
+    }
+
     public function deleteUser($id)
     {
         try {

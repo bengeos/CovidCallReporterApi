@@ -72,6 +72,7 @@ Route::group(['namespace' => 'Users'], function () {
     Route::get('/users_paginated', 'UsersController@getUsersPaginated');
     Route::post('/user', 'UsersController@createUser');
     Route::patch('/user', 'UsersController@updateUsers');
+    Route::patch('/user_status', 'UsersController@updateUserStatus');
     Route::patch('/user/{id}', 'UsersController@deleteUser');
 });
 

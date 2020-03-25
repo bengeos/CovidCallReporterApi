@@ -18,26 +18,31 @@ class SubCitiesController extends Controller
      */
     public function __construct(SubCitiesRepository $subCitiesRepository)
     {
+        $this->middleware('auth:api');
         $this->subCitiesRepoCtl = $subCitiesRepository;
     }
 
-    public function getSubCitiesList()
+    public function getSubCitiesList($city_id)
     {
         try {
             $this->authorize('view', new SubCity());
-            $cities = $this->subCitiesRepoCtl->getAll();
+            $query = array();
+            $query['city_id'] = $city_id;
+            $cities = $this->subCitiesRepoCtl->getAll($query);
             return response()->json(['status' => true, 'message' => 'subCities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         }
     }
 
-    public function getSubCitiesPaginated()
+    public function getSubCitiesPaginated($city_id)
     {
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
             $this->authorize('view', new SubCity());
-            $cities = $this->subCitiesRepoCtl->getAllPaginated($PAGINATE_NUM);
+            $query = array();
+            $query['city_id'] = $city_id;
+            $cities = $this->subCitiesRepoCtl->getAllPaginated($PAGINATE_NUM, $query);
             return response()->json(['status' => true, 'message' => 'subCities fetched successfully', 'result' => $cities, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
@@ -49,7 +54,7 @@ class SubCitiesController extends Controller
         try {
             $this->authorize('create', new SubCity());
             $credential = request()->all();
-            $rule = ['name' => 'required'];
+            $rule = ['city_id' => 'required', 'name' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
                 $error = $validator->messages();

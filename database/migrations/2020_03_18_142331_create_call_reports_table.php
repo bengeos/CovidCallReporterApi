@@ -25,6 +25,7 @@ class CreateCallReportsTable extends Migration
             $table->string('full_name')->nullable();
             $table->integer('age')->nullable();
             $table->string('phone')->nullable();
+            $table->string('second_phone')->nullable();
             $table->string('occupation')->nullable();
             $table->string('callerType')->nullable();
             $table->string('other')->nullable();
@@ -34,10 +35,10 @@ class CreateCallReportsTable extends Migration
             $table->longText('remark_1')->nullable();
             $table->longText('remark_2')->nullable();
             $table->enum('gender', \App\Models\CallReport::GENDER);
-            $table->boolean('travel_hx')->default(false);
-            $table->boolean('have_sex')->default(false);
-            $table->boolean('animal_market')->default(false);
-            $table->boolean('health_facility')->default(false);
+            $table->boolean('is_travel_hx')->default(false);
+            $table->boolean('is_contacted_with_pt')->default(false);
+            $table->boolean('is_visited_animal')->default(false);
+            $table->boolean('is_visited_hf')->default(false);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('restrict')->onUpdate('cascade');

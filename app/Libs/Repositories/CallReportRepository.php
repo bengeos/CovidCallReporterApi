@@ -105,8 +105,13 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         $newCallReport->age = isset($inputData['age']) ? $inputData['age'] : null;
         $newCallReport->gender = isset($inputData['gender']) ? $inputData['gender'] : null;
         $newCallReport->phone = isset($inputData['phone']) ? $inputData['phone'] : null;
+        $newCallReport->second_phone = isset($inputData['second_phone']) ? $inputData['second_phone'] : null;
         $newCallReport->occupation = isset($inputData['occupation']) ? $inputData['occupation'] : null;
         $newCallReport->other = isset($inputData['other']) ? $inputData['other'] : null;
+        $newCallReport->is_travel_hx = isset($inputData['is_travel_hx']) ? $inputData['is_travel_hx'] : false;
+        $newCallReport->is_contacted_with_pt = isset($inputData['is_contacted_with_pt']) ? $inputData['is_contacted_with_pt'] : false;
+        $newCallReport->is_visited_animal = isset($inputData['is_visited_animal']) ? $inputData['is_visited_animal'] : false;
+        $newCallReport->is_visited_hf = isset($inputData['is_visited_hf']) ? $inputData['is_visited_hf'] : false;
         $newCallReport->created_by = isset($inputData['created_by']) ? $inputData['created_by'] : null;
         $newCallReport->save();
         return $newCallReport;

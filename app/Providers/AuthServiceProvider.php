@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Models\CallReport;
 use App\Models\City;
 use App\Models\Region;
+use App\Models\SubCity;
 use App\Models\Wereda;
 use App\Models\Zone;
 use App\Policies\CallReportPolicies;
 use App\Policies\CityPolicies;
 use App\Policies\RegionsPolicies;
+use App\Policies\SubCitiesPolicy;
 use App\Policies\UsersPolicies;
 use App\Policies\WeredaPolicies;
 use App\Policies\ZonePolicies;
@@ -32,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         Zone::class => ZonePolicies::class,
         Wereda::class => WeredaPolicies::class,
         City::class => CityPolicies::class,
+        SubCity::class => SubCitiesPolicy::class,
         User::class => UsersPolicies::class,
         CallReport::class => CallReportPolicies::class,
     ];

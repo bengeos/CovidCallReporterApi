@@ -68,7 +68,7 @@ class CitiesRepository extends DefaultRepository implements CityInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return City::where('wereda_id', '=', $wereda_id)
+        return City::with('wereda')->where('wereda_id', '=', $wereda_id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -80,7 +80,7 @@ class CitiesRepository extends DefaultRepository implements CityInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return City::where('wereda_id', '=', $wereda_id)
+        return City::with('wereda')->where('wereda_id', '=', $wereda_id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })

@@ -45,7 +45,7 @@ class SubCitiesRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return SubCity::where(function ($query) use ($queryData) {
+        return SubCity::with('city')->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->get();
@@ -56,7 +56,7 @@ class SubCitiesRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return SubCity::where(function ($query) use ($queryData) {
+        return SubCity::with('city')->where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->paginate($pagination_size);

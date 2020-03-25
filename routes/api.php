@@ -43,6 +43,12 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::post('/city', 'CitiesController@createCity');
     Route::patch('/city', 'CitiesController@updateCity');
     Route::delete('/city/{id}', 'CitiesController@deleteCity');
+
+    Route::get('/sub_cities/{id}', 'SubCitiesController@getSubCitiesList');
+    Route::get('/sub_cities_paginated/{id}', 'SubCitiesController@getSubCitiesPaginated');
+    Route::post('/sub_city', 'SubCitiesController@createSubCity');
+    Route::patch('/sub_city', 'SubCitiesController@updateSubCity');
+    Route::delete('/sub_city/{id}', 'SubCitiesController@deleteSubCity');
 });
 
 Route::group(['namespace' => 'Reports'], function () {

@@ -23,6 +23,7 @@ class RegionsSeeder extends Seeder
             array('id'=>9, 'name'=>'SNNP Regional State', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
             array('id'=>10, 'name'=>'Harari Regional State', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
             array('id'=>11, 'name'=>'Gambella Regional State', 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()),
+
         );
         \App\Models\Region::insert($regions);
     }

@@ -8,13 +8,9 @@ use App\Models\CallReport;
 use App\Models\CallReportRumor;
 use App\Models\CallRumorType;
 use App\Models\City;
-use App\Models\Role;
-use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Prophecy\Call\Call;
 
 class CallReportsController extends Controller
 {

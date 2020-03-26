@@ -52,18 +52,29 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::delete('/sub_city/{id}', 'SubCitiesController@deleteSubCity');
 });
 
+Route::group(['namespace' => 'CallReports'], function () {
+    Route::get('/rumor_types', 'CallReportsController@getRumorTypes');
+    Route::get('/call_reports_of_user', 'CallReportsController@getCallReports');
+    Route::post('/call_report', 'CallReportsController@createCallReport');
+    Route::patch('/call_report', 'CallReportsController@updateCallReport');
+    Route::delete('/call_report/{id}', 'CallReportsController@deleteCallReport');
+});
+
 Route::group(['namespace' => 'Reports'], function () {
-    Route::get('/call_rumor_types', 'CallReportsController@getCallRumorTypes');
-    Route::get('/call_reports_paginated_by_user', 'CallReportsController@getReportsByUserPaginated');
-    Route::get('/all_call_reports_paginated', 'CallReportsController@getAllCallReportsPaginated');
-    Route::get('/new_call_reports_paginated', 'CallReportsController@getNewCallReportsPaginated');
+    // CallReports Section
+    Route::get('/new_call_reports', 'CallReportsController@getNewCallReports');
+    Route::get('/all_call_reports', 'CallReportsController@getAllCallReports');
+    Route::patch('/update_call_report', 'CallReportsController@updateCallReport');
 
     Route::get('/all_rapid_call_reports_paginated', 'CallReportsController@getNewRapidCallReportsPaginated');
     Route::get('/new_followup_call_reports_paginated', 'CallReportsController@getNewFollowupCallReportsPaginated');
-    Route::post('/call_report', 'CallReportsController@createCallReport');
-    Route::patch('/call_report', 'CallReportsController@updateCallReport');
-    Route::patch('/call_report_status', 'CallReportsController@updateCallReportStatus');
-    Route::delete('/call_report/{id}', 'CallReportsController@deleteCallReport');
+
+});
+
+Route::group(['namespace' => 'RapidResponses'], function () {
+    // CallReports Section
+    Route::get('/get_new_rapid_call_reports', 'CallReportsController@getNewRapidCallReportsPaginated');
+    Route::get('/get_assigned_rapid_call_reports', 'CallReportsController@getNewRapidCallReportsPaginated');
 });
 
 Route::group(['namespace' => 'Users'], function () {

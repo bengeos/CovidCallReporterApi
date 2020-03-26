@@ -11,7 +11,7 @@ class UsersPolicies
 
     public function before(User $user, $ability)
     {
-        if ($user->role_id == 1) {
+        if ($user->role_id <= 2) {
             return true;
         } else {
             return false;

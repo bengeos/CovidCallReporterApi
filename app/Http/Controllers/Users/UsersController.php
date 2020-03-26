@@ -40,7 +40,12 @@ class UsersController extends Controller
     {
         try {
             $this->authorize('view', new User());
-            $users = $this->usersRepository->getAll();
+            $user = Auth::guard('api')->user();
+            $query = array();
+            if ($user->role_id == 1) {
+                $query['region_id'] = $user->region_id;
+            }
+            $users = $this->usersRepository->getAll($query);
             return response()->json(['status' => true, 'message' => 'users fetched successfully', 'result' => $users, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
@@ -52,7 +57,12 @@ class UsersController extends Controller
         try {
             $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
             $this->authorize('view', new User());
-            $users = $this->usersRepository->getAllPaginated($PAGINATE_NUM);
+            $user = Auth::guard('api')->user();
+            $query = array();
+            if ($user->role_id != 1) {
+                $query['region_id'] = $user->region_id;
+            }
+            $users = $this->usersRepository->getAllPaginated($PAGINATE_NUM, $query);
             return response()->json(['status' => true, 'message' => 'users fetched successfully', 'result' => $users, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
@@ -65,13 +75,13 @@ class UsersController extends Controller
             $this->authorize('create', new User());
             $user = Auth::guard('api')->user();
             $credential = request()->all();
-            $rule = ['full_name' => 'required', 'email' => 'required|email', 'role_id' => 'required', 'password' => 'required'];
+            $rule = ['full_name' => 'required', 'email' => 'required|email', 'role_id' => 'required', 'password' => 'required', 'region_id' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $selectedRole = Role::where('id', '=', $credential['role_id'])->first();
+            $selectedRole = Role::where('id', '=', $credential['role_id'])->where('id', '>', $user->role_id)->first();
             if ($selectedRole instanceof Role) {
                 $newUser = $this->usersRepository->addNew($credential);
                 if ($newUser) {
@@ -102,10 +112,9 @@ class UsersController extends Controller
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
             $updateData = array();
-            $updateData['role_id'] = isset($credential['role_id'])? $credential['role_id']: null;
-            $updateData['full_name'] = isset($credential['full_name'])? $credential['full_name']: null;
-            $updateData['email'] = isset($credential['email'])? $credential['email']: null;
-            $updateData['phone'] = isset($credential['phone'])? $credential['phone']: null;
+            $updateData['full_name'] = isset($credential['full_name']) ? $credential['full_name'] : null;
+            $updateData['email'] = isset($credential['email']) ? $credential['email'] : null;
+            $updateData['phone'] = isset($credential['phone']) ? $credential['phone'] : null;
             $updatedUser = $this->usersRepository->updateItem($credential['id'], $updateData);
             if ($updatedUser instanceof User) {
                 return response()->json(['status' => true, 'message' => 'admin users updated successfully', 'result' => $updatedUser, 'error' => null], 200);

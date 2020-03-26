@@ -71,6 +71,7 @@ class AuthenticationController extends Controller
                 $new_user->password = bcrypt($credentials['password']);
                 $new_user->phone = isset($credentials['phone']) ? $credentials['phone'] : null;
                 $new_user->role_id = 1;
+                $new_user->region_id = 1;
                 if ($new_user->save()) {
                     return response()->json(['status' => true, 'message' => 'registered successfully', 'result' => $new_user], 200);
                 } else {

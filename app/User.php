@@ -2,15 +2,16 @@
 
 namespace App;
 
+use App\Models\Region;
 use App\Models\Role;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use SoftDeletes, HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -41,5 +42,9 @@ class User extends Authenticatable
 
     public function role() {
         return $this->belongsTo(Role::class);
+    }
+
+    public function region() {
+        return $this->belongsTo(Region::class);
     }
 }

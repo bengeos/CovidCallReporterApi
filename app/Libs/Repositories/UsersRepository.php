@@ -71,6 +71,7 @@ class UsersRepository extends DefaultRepository implements UserInterface
         $newUser->email = isset($inputData['email']) ? $inputData['email'] : null;
         $newUser->phone = isset($inputData['phone']) ? $inputData['phone'] : null;
         $newUser->region_id = isset($inputData['region_id']) ? $inputData['region_id'] : null;
+        $newUser->call_center = isset($inputData['call_center']) ? $inputData['call_center'] : null;
         $newUser->password = isset($inputData['password']) ? bcrypt($inputData['password']) : bcrypt($inputData['password']);
         $newUser->save();
         return $newUser;

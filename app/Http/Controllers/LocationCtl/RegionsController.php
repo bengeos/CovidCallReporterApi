@@ -61,12 +61,12 @@ class RegionsController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $newRegion = $this->regionCtrl->addNew($credential);
-            if ($newRegion) {
-                return response()->json(['status' => true, 'message' => 'region created successfully', 'result' => $newRegion, 'error' => null], 200);
-            } else {
-                return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => 'something went wrong! try again'], 500);
-            }
+//            $newRegion = $this->regionCtrl->addNew($credential);
+//            if ($newRegion) {
+//                return response()->json(['status' => true, 'message' => 'region created successfully', 'result' => $newRegion, 'error' => null], 200);
+//            } else {
+//                return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => 'something went wrong! try again'], 500);
+//            }
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         } catch (\Exception $e) {
@@ -86,12 +86,12 @@ class RegionsController extends Controller
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
             $updatedRegionStatus = $this->regionCtrl->updateItem($credential['id'], $credential);
-            if ($updatedRegionStatus) {
-                $updatedRegion = $this->regionCtrl->getItem($credential['id']);
-                return response()->json(['status' => true, 'message' => 'region updated successfully', 'result' => $updatedRegion, 'error' => null], 200);
-            } else {
-                return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => null], 500);
-            }
+//            if ($updatedRegionStatus) {
+//                $updatedRegion = $this->regionCtrl->getItem($credential['id']);
+//                return response()->json(['status' => true, 'message' => 'region updated successfully', 'result' => $updatedRegion, 'error' => null], 200);
+//            } else {
+//                return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => null], 500);
+//            }
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         } catch (\Throwable $e) {
@@ -105,11 +105,11 @@ class RegionsController extends Controller
             $this->authorize('delete', new Region());
             $queryData = array();
             $status = $this->regionCtrl->deleteItem($id, $queryData);
-            if ($status) {
-                return response()->json(['status' => true, 'message' => 'region deleted successfully', 'result' => null, 'error' => null], 200);
-            } else {
-                return response()->json(['status' => false, 'message' => 'whoops! unable to delete this region', 'result' => null, 'error' => 'failed to delete the region'], 500);
-            }
+//            if ($status) {
+//                return response()->json(['status' => true, 'message' => 'region deleted successfully', 'result' => null, 'error' => null], 200);
+//            } else {
+//                return response()->json(['status' => false, 'message' => 'whoops! unable to delete this region', 'result' => null, 'error' => 'failed to delete the region'], 500);
+//            }
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         } catch (\Throwable $e) {

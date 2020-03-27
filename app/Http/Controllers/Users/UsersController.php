@@ -29,7 +29,13 @@ class UsersController extends Controller
     {
         try {
             $this->authorize('view', new User());
-            $roles = Role::all();
+            $user = Auth::guard('api')->user();
+            if ($user->role_id != 1) {
+                $roles = Role::where('id', '>', $user->role_id)->get();
+            } else {
+                $roles = Role::all();
+            }
+
             return response()->json(['status' => true, 'message' => 'roles fetched successfully', 'result' => $roles, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
@@ -42,7 +48,7 @@ class UsersController extends Controller
             $this->authorize('view', new User());
             $user = Auth::guard('api')->user();
             $query = array();
-            if ($user->role_id == 1) {
+            if ($user->role_id != 1) {
                 $query['region_id'] = $user->region_id;
             }
             $users = $this->usersRepository->getAll($query);
@@ -81,6 +87,10 @@ class UsersController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
+            if ($user->role_id > 1) {
+                $credential['region_id'] = $user->region_id;
+                $credential['call_center'] = $user->call_center;
+            }
             $selectedRole = Role::where('id', '=', $credential['role_id'])->where('id', '>', $user->role_id)->first();
             if ($selectedRole instanceof Role) {
                 $newUser = $this->usersRepository->addNew($credential);
@@ -115,6 +125,7 @@ class UsersController extends Controller
             $updateData['full_name'] = isset($credential['full_name']) ? $credential['full_name'] : null;
             $updateData['email'] = isset($credential['email']) ? $credential['email'] : null;
             $updateData['phone'] = isset($credential['phone']) ? $credential['phone'] : null;
+            $updateData['call_center'] = isset($credential['phone']) ? $credential['phone'] : $user->call_center;
             $updatedUser = $this->usersRepository->updateItem($credential['id'], $updateData);
             if ($updatedUser instanceof User) {
                 return response()->json(['status' => true, 'message' => 'admin users updated successfully', 'result' => $updatedUser, 'error' => null], 200);

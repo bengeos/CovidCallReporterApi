@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['namespace' => 'Dashboards'], function () {
+    Route::get('/dashboard/count_data', 'DashboardsController@getDashboardCountData');
+    Route::get('/dashboard/regional_call_reports', 'DashboardsController@getRegionalCallReports');
+    Route::get('/dashboard/reports_history/{id}', 'DashboardsController@getDailyReportsHistoryCount');
+});
+
 Route::group(['namespace' => 'Authentications'], function () {
     Route::post('/authenticate', 'AuthenticationController@authenticate');
     Route::post('/register', 'AuthenticationController@register');

@@ -15,11 +15,13 @@ class CreateContactGroupsTable extends Migration
     {
         Schema::create('contact_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->unsignedBigInteger('sub_city_id')->nullable();
+            $table->unsignedBigInteger('kebele_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->string('unique_code');
-            $table->string('full_name');
-            $table->string('phone');
-            $table->string('email')->nullable();
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

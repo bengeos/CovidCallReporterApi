@@ -93,6 +93,7 @@ Route::group(['namespace' => 'Users'], function () {
     Route::delete('/user/{id}', 'UsersController@deleteUser');
 });
 
+
 Route::group(['namespace' => 'Reports'], function () {
     Route::get('/pull_request_payload', 'CallReportsController@pullPayload');
 });

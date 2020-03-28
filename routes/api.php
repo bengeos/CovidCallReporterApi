@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,5 +95,17 @@ Route::group(['namespace' => 'Users'], function () {
 
 Route::group(['namespace' => 'Reports'], function () {
     Route::get('/pull_request_payload', 'CallReportsController@pullPayload');
+});
+
+Route::group(['namespace' => 'MobileAuth'], function () {
+    Route::post('/mobile_authenticate', 'MobileAuthController@authenticate');
+});
+
+Route::group(['namespace' => 'ContactGroups'], function () {
+    Route::get('/contact_group_contacts/{id}', 'ContactGroupsController@getContacts');
+    Route::get('/contact_groups', 'ContactGroupsController@getContactGroups');
+    Route::post('/contact_group', 'ContactGroupsController@createContactGroup');
+    Route::patch('/contact_group', 'ContactGroupsController@updateContactGroup');
+    Route::delete('/contact_group/{id}', 'ContactGroupsController@deleteContactGroup');
 });
 

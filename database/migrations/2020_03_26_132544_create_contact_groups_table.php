@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 class CreateContactGroupsTable extends Migration
 {
@@ -19,10 +18,11 @@ class CreateContactGroupsTable extends Migration
             $table->unsignedBigInteger('sub_city_id')->nullable();
             $table->unsignedBigInteger('kebele_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
-            $table->string('unique_code');
+            $table->string('unique_code')->unique();
             $table->string('name');
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

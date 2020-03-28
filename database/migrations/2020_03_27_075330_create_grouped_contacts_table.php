@@ -18,6 +18,7 @@ class CreateGroupedContactsTable extends Migration
             $table->unsignedBigInteger('contact_id');
             $table->unsignedBigInteger('contact_group_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

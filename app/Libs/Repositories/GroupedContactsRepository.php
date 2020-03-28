@@ -5,25 +5,16 @@ namespace App\Libs\Repositories;
 
 
 use App\Libs\Interfaces\DefaultInterface;
-use App\Models\ContactGroup;
+use App\Models\GroupedContact;
 
-class ContactGroupsRepository extends DefaultRepository implements DefaultInterface
+class GroupedContactsRepository extends DefaultRepository implements DefaultInterface
 {
-
-    /**
-     * ContactGroupsRepository constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
     public function getItem($id, $queryData = null)
     {
         if ($queryData == null) {
             $queryData = array();
         }
-        return ContactGroup::where('id', '=', $id)
+        return GroupedContact::where('id', '=', $id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -35,7 +26,7 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return ContactGroup::where(function ($query) use ($queryData) {
+        return GroupedContact::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->first();
@@ -46,7 +37,7 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return ContactGroup::where(function ($query) use ($queryData) {
+        return GroupedContact::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->get();
@@ -57,7 +48,7 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return ContactGroup::with('contacts')->where(function ($query) use ($queryData) {
+        return GroupedContact::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->paginate($pagination_size);
@@ -65,17 +56,11 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
 
     public function addNew($inputData)
     {
-        $newContactGroup = new ContactGroup();
-        $newContactGroup->city_id = isset($inputData['city_id']) ? $inputData['city_id'] : null;
-        $newContactGroup->sub_city_id = isset($inputData['sub_city_id']) ? $inputData['sub_city_id'] : null;
-        $newContactGroup->kebele_id = isset($inputData['kebele_id']) ? $inputData['kebele_id'] : null;
-        $newContactGroup->created_by = isset($inputData['created_by']) ? $inputData['created_by'] : null;
-        $newContactGroup->created_by = isset($inputData['created_by']) ? $inputData['created_by'] : null;
-        $newContactGroup->name = isset($inputData['name']) ? $inputData['name'] : null;
-        $newContactGroup->description = isset($inputData['description']) ? $inputData['description'] : null;
-        $newContactGroup->unique_code = $this->getRandomString(8);
-        $newContactGroup->save();
-        return $newContactGroup;
+        $newGroupedGroup = new GroupedContact();
+        $newGroupedGroup->contact_id = isset($inputData['contact_id']) ? $inputData['contact_id'] : null;
+        $newGroupedGroup->contact_group_id = isset($inputData['contact_group_id']) ? $inputData['contact_group_id'] : null;
+        $newGroupedGroup->save();
+        return $newGroupedGroup;
     }
 
     public function updateItem($id, $updateData, $queryData = null)
@@ -84,7 +69,7 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
             $queryData = array();
         }
         $queryData['id'] = $id;
-        return ContactGroup::where(function ($query) use ($queryData) {
+        return GroupedContact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -97,7 +82,7 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return ContactGroup::where(function ($query) use ($queryData) {
+        return GroupedContact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -110,7 +95,7 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return ContactGroup::where('id', '=', $id)->where(function ($query) use ($queryData) {
+        return GroupedContact::where('id', '=', $id)->where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -123,27 +108,17 @@ class ContactGroupsRepository extends DefaultRepository implements DefaultInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        $contactGroupsForDelete = ContactGroup::where(function ($query) use ($queryData) {
+        $groupedContactsForDelete = GroupedContact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
         }
         )->get();
-        foreach ($contactGroupsForDelete as $contactGroup) {
-            if ($contactGroup instanceof ContactGroup) {
-                $contactGroup->delete();
+        foreach ($groupedContactsForDelete as $groupedContacts) {
+            if ($groupedContacts instanceof GroupedContact) {
+                $groupedContacts->delete();
             }
         }
         return true;
-    }
-
-    private function getRandomString($size)
-    {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $randomString = "";
-        for ($i = 0; $i < $size; $i++) {
-            $randomString = $randomString . $characters[rand(0, strlen($characters) - 1)];
-        }
-        return $randomString;
     }
 }

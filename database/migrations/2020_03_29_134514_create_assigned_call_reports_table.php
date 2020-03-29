@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
-class CreateGroupedContactsTable extends Migration
+class CreateAssignedCallReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +12,13 @@ class CreateGroupedContactsTable extends Migration
      */
     public function up()
     {
-        Schema::create('grouped_contacts', function (Blueprint $table) {
+        Schema::create('assigned_call_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('contact_id');
+            $table->unsignedBigInteger('call_report_id');
             $table->unsignedBigInteger('contact_group_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('call_report_id')->references('id')->on('call_reports')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('contact_group_id')->references('id')->on('contact_groups')->onDelete('restrict')->onUpdate('cascade');
         });
     }
@@ -31,6 +30,6 @@ class CreateGroupedContactsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grouped_contacts');
+        Schema::dropIfExists('assigned_call_reports');
     }
 }

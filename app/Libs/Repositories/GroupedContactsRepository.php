@@ -14,7 +14,8 @@ class GroupedContactsRepository extends DefaultRepository implements DefaultInte
         if ($queryData == null) {
             $queryData = array();
         }
-        return GroupedContact::where('id', '=', $id)
+        return GroupedContact::with('contact', 'contact_group')
+            ->where('id', '=', $id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -26,9 +27,10 @@ class GroupedContactsRepository extends DefaultRepository implements DefaultInte
         if ($queryData == null) {
             $queryData = array();
         }
-        return GroupedContact::where(function ($query) use ($queryData) {
-            $this->queryBuilder($query, $queryData);
-        })
+        return GroupedContact::with('contact', 'contact_group')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
             ->first();
     }
 
@@ -37,9 +39,10 @@ class GroupedContactsRepository extends DefaultRepository implements DefaultInte
         if ($queryData == null) {
             $queryData = array();
         }
-        return GroupedContact::where(function ($query) use ($queryData) {
-            $this->queryBuilder($query, $queryData);
-        })
+        return GroupedContact::with('contact', 'contact_group')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
             ->get();
     }
 
@@ -48,9 +51,10 @@ class GroupedContactsRepository extends DefaultRepository implements DefaultInte
         if ($queryData == null) {
             $queryData = array();
         }
-        return GroupedContact::where(function ($query) use ($queryData) {
-            $this->queryBuilder($query, $queryData);
-        })
+        return GroupedContact::with('contact', 'contact_group')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
             ->paginate($pagination_size);
     }
 

@@ -30,16 +30,13 @@ class MobileAuthController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'result' => null, 'message' => null, 'error' => $error], 500);
             }
-            if (!auth()->guard('web')->attempt($credentials)) {
-                return response()->json(['status' => false, 'result' => null, 'message' => 'whoops! invalid admin credential has been used!', 'error' => 'invalid credential'], 401);
-            }
             $contactGroupsId = ContactGroup::where('unique_code', '=', $credentials['unique_code'])->select('id')->get();
             $contactsId = Contact::where('phone', '=', $credentials['phone'])->select('id')->get();
             $groupedContact = GroupedContact::whereIn('contact_id', $contactsId)->whereIn('contact_group_id', $contactGroupsId)->first();
             if ($groupedContact instanceof GroupedContact) {
-                return response()->json(['status' => true, 'message' => 'authenticated successful', 'result' => $adminUser, 'token' => $token], 200);
+                return response()->json(['status' => true, 'message' => 'authenticated successful', 'result' => $groupedContact], 200);
             } else {
-                return response()->json(['status' => false, 'message' => 'whoops! inactive account', 'result' => null, 'error' => 'inactive account',], 500);
+                return response()->json(['status' => false, 'message' => 'whoops! invalid credential', 'result' => null, 'error' => 'invalid credential',], 500);
             }
         } catch (\Exception $exception) {
             return response()->json(['status' => false, 'result' => null, 'message' => 'whoops! exception has occurred', 'error' => $exception->getMessage()], 500);

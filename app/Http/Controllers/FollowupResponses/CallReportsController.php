@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\FollowupResponses;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\FollowupReportTasks\SendMessageToAssignedFollowUpReportTask;
 use App\Libs\Repositories\CallReportRepository;
 use App\Libs\Repositories\ContactGroupsRepository;
 use App\Models\AssignedCallReport;
@@ -94,7 +95,7 @@ class CallReportsController extends Controller
                 $newAssignedCallReport->created_by = $thisUser->id;
                 if ($newAssignedCallReport->save()) {
                     if (isset($credential['message'])) {
-
+                        dispatch(new SendMessageToAssignedFollowUpReportTask($newAssignedCallReport, $credential['message']));
                     }
                     return response()->json(['status' => true, 'message' => 'call-report assigned successfully', 'result' => $newAssignedCallReport, 'error' => null], 200);
                 } else {

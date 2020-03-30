@@ -29,6 +29,9 @@ abstract class ParentPushJob implements ShouldQueue
         $response = $client->request($this->method(), $this->endPoint(), ['json' => $this->data]);
 
         $logger->alert('AWS API Gateway Response', [
+            'method' => $this->method(),
+            'url' => $this->endPoint(),
+            'data' => $this->data,
             'statusCode' => $response->getStatusCode(),
             'body' => $response->getBody()->getContents(),
         ]);

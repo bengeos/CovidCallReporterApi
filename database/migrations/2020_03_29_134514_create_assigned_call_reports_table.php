@@ -16,10 +16,13 @@ class CreateAssignedCallReportsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('call_report_id');
             $table->unsignedBigInteger('contact_group_id');
+            $table->unsignedBigInteger('created_by');
+            $table->enum('assignment_type', \App\Models\AssignedCallReport::ASSIGNMENT_TYPE);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('call_report_id')->references('id')->on('call_reports')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('contact_group_id')->references('id')->on('contact_groups')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -85,7 +85,7 @@ Route::group(['namespace' => 'RapidResponses'], function () {
 Route::group(['namespace' => 'FollowupResponses'], function () {
     Route::get('/new_followup_call_reports', 'CallReportsController@getNewFollowupCallReports');
     Route::get('/old_followup_call_reports', 'CallReportsController@getAssignedFollowupCallReports');
-    Route::get('/assign_followup_call_reports', 'CallReportsController@getAssignedFollowupCallReports');
+    Route::post('/assign_followup_call_reports', 'CallReportsController@assignCallReport');
 });
 
 Route::group(['namespace' => 'Users'], function () {

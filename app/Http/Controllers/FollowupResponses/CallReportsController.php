@@ -5,13 +5,16 @@ namespace App\Http\Controllers\FollowupResponses;
 use App\Http\Controllers\Controller;
 use App\Libs\Repositories\CallReportRepository;
 use App\Libs\Repositories\ContactGroupsRepository;
+use App\Models\AssignedCallReport;
 use App\Models\CallReport;
 use App\Models\CallReportRumor;
 use App\Models\CallRumorType;
 use App\Models\City;
+use App\Models\ContactGroup;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class CallReportsController extends Controller
 {
@@ -60,7 +63,7 @@ class CallReportsController extends Controller
                 $query['report_region_id'] = $thisUser->region_id;
             }
             $query['report_group_id'] = 2;
-            $reports = $this->callReportsRepo->getNotAssigned($PAGINATE_NUM, $query);
+            $reports = $this->callReportsRepo->getAssigned($PAGINATE_NUM, $query);
             return response()->json(['status' => true, 'message' => 'reports fetched successfully', 'result' => $reports, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
@@ -82,26 +85,23 @@ class CallReportsController extends Controller
             $query1 = array();
             $query1['created_by'] = $thisUser->id;
             $callReport = $this->callReportsRepo->getItem($credential['call_report_id'], $query1);
-            $callReport = $this->callReportsRepo->getItem($credential['call_report_id'], $query1);
-            $credential['created_by'] = $thisUser->id;
-            $credential['report_region_id'] = $thisUser->region_id;
-            $newReport = $this->callReportsRepo->addNew($credential);
-            if ($newReport) {
-                if (isset($credential['rumor_types'])) {
-                    $rumors = $credential['rumor_types'];
-                    foreach ($rumors as $rumor) {
-                        $rumorType = CallRumorType::where('id', '=', $rumor['id'])->first();
-                        if ($rumorType instanceof CallRumorType) {
-                            $newCallReportRumor = new CallReportRumor();
-                            $newCallReportRumor->call_report_id = $newReport->id;
-                            $newCallReportRumor->call_rumor_type_id = $rumorType->id;
-                            $newCallReportRumor->save();
-                        }
+            $contactGroup = $this->contactGroupRepo->getItem($credential['contact_group_id'], $query1);
+            if ($callReport instanceof CallReport && $contactGroup instanceof ContactGroup) {
+                $newAssignedCallReport = new AssignedCallReport();
+                $newAssignedCallReport->call_report_id = $callReport->id;
+                $newAssignedCallReport->contact_group_id = $contactGroup->id;
+                $newAssignedCallReport->assignment_type = AssignedCallReport::ASSIGNMENT_TYPE['FOLLOWUP_RESPONSE_TEAM'];
+                $newAssignedCallReport->created_by = $thisUser->id;
+                if ($newAssignedCallReport->save()) {
+                    if (isset($credential['message'])) {
+
                     }
+                    return response()->json(['status' => true, 'message' => 'call-report assigned successfully', 'result' => $newAssignedCallReport, 'error' => null], 200);
+                } else {
+                    return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => 'something went wrong! try again'], 500);
                 }
-                return response()->json(['status' => true, 'message' => 'call-reports created successfully', 'result' => $newReport, 'error' => null], 200);
             } else {
-                return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => 'something went wrong! try again'], 500);
+                return response()->json(['status' => false, 'message' => 'whoops! unable to find the call-report and contact-group', 'result' => null, 'error' => 'unable to find the call-report and contact-group'], 500);
             }
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);

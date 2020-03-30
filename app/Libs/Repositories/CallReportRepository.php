@@ -78,6 +78,20 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
             ->paginate($pagination_size);
     }
 
+    public function getAssigned($pagination_size = 10, $queryData = null)
+    {
+        if ($queryData == null) {
+            $queryData = array();
+        }
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
+            ->whereIn('id', AssignedCallReport::where('assignment_type', '=', AssignedCallReport::ASSIGNMENT_TYPE['FOLLOWUP_RESPONSE_TEAM'])->select('call_report_id')->get())
+            ->orderBy('id', 'DESC')
+            ->paginate($pagination_size);
+    }
+
     public function getNotAssigned($pagination_size = 10, $queryData = null)
     {
         if ($queryData == null) {
@@ -87,7 +101,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
-            ->whereNotIn('id', AssignedCallReport::select('call_report_id')->get())
+            ->whereNotIn('id', AssignedCallReport::where('assignment_type', '=', AssignedCallReport::ASSIGNMENT_TYPE['FOLLOWUP_RESPONSE_TEAM'])->select('call_report_id')->get())
             ->orderBy('id', 'DESC')
             ->paginate($pagination_size);
     }

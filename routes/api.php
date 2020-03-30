@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,12 +83,6 @@ Route::group(['namespace' => 'RapidResponses'], function () {
     Route::get('/get_assigned_rapid_call_reports', 'CallReportsController@getNewRapidCallReportsPaginated');
 });
 
-Route::group(['namespace' => 'FollowupResponses'], function () {
-    Route::get('/new_followup_call_reports', 'CallReportsController@getNewFollowupCallReports');
-    Route::get('/old_followup_call_reports', 'CallReportsController@getAssignedFollowupCallReports');
-    Route::post('/assign_followup_call_reports', 'CallReportsController@assignCallReport');
-});
-
 Route::group(['namespace' => 'Users'], function () {
     Route::get('/roles', 'UsersController@getRoleList');
     Route::get('/users', 'UsersController@getUsersList');
@@ -98,32 +93,14 @@ Route::group(['namespace' => 'Users'], function () {
     Route::delete('/user/{id}', 'UsersController@deleteUser');
 });
 
-
 Route::group(['namespace' => 'Reports'], function () {
     Route::get('/pull_request_payload', 'CallReportsController@pullPayload');
 });
 
-Route::group(['namespace' => 'MobileAuth'], function () {
-    Route::post('/mobile_authenticate', 'MobileAuthController@authenticate');
-    Route::get('/get_follow_up_call_reports', 'FollowUpReportsController@getFollowUpCallReports');
-    Route::post('/get_follow_up_call_reports', 'FollowUpReportsController@getFollowUpCallReports');
-});
 
-Route::group(['namespace' => 'ContactGroups'], function () {
-    Route::get('/contact_groups', 'ContactGroupsController@getContactGroups');
-    Route::get('/contact_groups_paginated', 'ContactGroupsController@getContactGroupsPaginated');
-    Route::post('/contact_group', 'ContactGroupsController@createContactGroup');
-    Route::patch('/contact_group', 'ContactGroupsController@updateContactGroup');
-    Route::delete('/contact_group/{id}', 'ContactGroupsController@deleteContactGroup');
-});
+//Route::middleware('cognito'); to be added on the api gateway request
+/*Route::get('/test',function ()
+{
+    return response('authenticated');
+})->middleware('cognito');*/
 
-Route::group(['namespace' => 'ContactGroups'], function () {
-    Route::get('/grouped_contacts/{id}', 'GroupedContactsController@getGroupedContacts');
-    Route::post('/grouped_contact', 'GroupedContactsController@createContactGroup');
-    Route::patch('/grouped_contact', 'GroupedContactsController@updateGroupedContact');
-    Route::delete('/grouped_contact/{id}', 'GroupedContactsController@deleteGroupedContact');
-});
-
-Route::group(['namespace' => 'TestCtl'], function () {
-    Route::get('/test', 'TestController@makeGetRequest');
-});

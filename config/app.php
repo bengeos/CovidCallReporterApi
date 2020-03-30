@@ -125,6 +125,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Cognito Key
+    |--------------------------------------------------------------------------
+    |
+    | This used to authenticate to the api gateway
+    |
+     */
+
+    'api_gateway_client_id' => env('CLIENT_ID'),
+    'api_gateway_client_secret' => env('CLIENT_SECRET'),
+    'api_gateway_auth_uri' => env('AUTH_URL'),
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

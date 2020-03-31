@@ -5,13 +5,13 @@ namespace App\Libs\Repositories;
 
 
 use App\Libs\Interfaces\DefaultInterface;
-use App\Models\Kebele;
+use App\Models\Contact;
 
-class KebeleRepository extends DefaultRepository implements DefaultInterface
+class ContactsRepository extends DefaultRepository implements DefaultInterface
 {
 
     /**
-     * KebeleRepository constructor.
+     * ContactsRepository constructor.
      */
     public function __construct()
     {
@@ -22,7 +22,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where('id', '=', $id)
+        return Contact::where('id', '=', $id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -34,7 +34,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
+        return Contact::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->first();
@@ -45,7 +45,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
+        return Contact::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->get();
@@ -56,7 +56,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
+        return Contact::where(function ($query) use ($queryData) {
             $this->queryBuilder($query, $queryData);
         })
             ->paginate($pagination_size);
@@ -64,14 +64,12 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
 
     public function addNew($inputData)
     {
-        $newKebele = new Kebele();
-        $newKebele->sub_city_id = isset($inputData['sub_city_id']) ? $inputData['sub_city_id'] : null;
-        $newKebele->name = isset($inputData['name']) ? $inputData['name'] : null;
-        $newKebele->latitude = isset($inputData['latitude']) ? $inputData['latitude'] : null;
-        $newKebele->longitude = isset($inputData['longitude']) ? $inputData['longitude'] : null;
-        $newKebele->description = isset($inputData['description']) ? $inputData['description'] : null;
-        $newKebele->save();
-        return $newKebele;
+        $newContact = new Contact();
+        $newContact->full_name = isset($inputData['full_name']) ? $inputData['full_name'] : null;
+        $newContact->phone = isset($inputData['phone']) ? $inputData['phone'] : null;
+        $newContact->email = isset($inputData['email']) ? $inputData['email'] : null;
+        $newContact->save();
+        return $newContact;
     }
 
     public function updateItem($id, $updateData, $queryData = null)
@@ -80,7 +78,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
             $queryData = array();
         }
         $queryData['id'] = $id;
-        return Kebele::where(function ($query) use ($queryData) {
+        return Contact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -93,7 +91,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
+        return Contact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -106,7 +104,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where('id', '=', $id)->where(function ($query) use ($queryData) {
+        return Contact::where('id', '=', $id)->where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -119,15 +117,15 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        $kebelesForDelete = Kebele::where(function ($query) use ($queryData) {
+        $contactsForDelete = Contact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
         }
         )->get();
-        foreach ($kebelesForDelete as $kebele) {
-            if ($kebele instanceof Kebele) {
-                $kebele->delete();
+        foreach ($contactsForDelete as $contact) {
+            if ($contact instanceof Contact) {
+                $contact->delete();
             }
         }
         return true;

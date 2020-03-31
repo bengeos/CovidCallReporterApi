@@ -5,24 +5,17 @@ namespace App\Libs\Repositories;
 
 
 use App\Libs\Interfaces\DefaultInterface;
-use App\Models\Kebele;
+use App\Models\GroupedContact;
 
-class KebeleRepository extends DefaultRepository implements DefaultInterface
+class GroupedContactsRepository extends DefaultRepository implements DefaultInterface
 {
-
-    /**
-     * KebeleRepository constructor.
-     */
-    public function __construct()
-    {
-    }
-
     public function getItem($id, $queryData = null)
     {
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where('id', '=', $id)
+        return GroupedContact::with('contact', 'contact_group')
+            ->where('id', '=', $id)
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -34,9 +27,10 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
-            $this->queryBuilder($query, $queryData);
-        })
+        return GroupedContact::with('contact', 'contact_group')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
             ->first();
     }
 
@@ -45,9 +39,10 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
-            $this->queryBuilder($query, $queryData);
-        })
+        return GroupedContact::with('contact', 'contact_group')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
             ->get();
     }
 
@@ -56,22 +51,20 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
-            $this->queryBuilder($query, $queryData);
-        })
+        return GroupedContact::with('contact', 'contact_group')
+            ->where(function ($query) use ($queryData) {
+                $this->queryBuilder($query, $queryData);
+            })
             ->paginate($pagination_size);
     }
 
     public function addNew($inputData)
     {
-        $newKebele = new Kebele();
-        $newKebele->sub_city_id = isset($inputData['sub_city_id']) ? $inputData['sub_city_id'] : null;
-        $newKebele->name = isset($inputData['name']) ? $inputData['name'] : null;
-        $newKebele->latitude = isset($inputData['latitude']) ? $inputData['latitude'] : null;
-        $newKebele->longitude = isset($inputData['longitude']) ? $inputData['longitude'] : null;
-        $newKebele->description = isset($inputData['description']) ? $inputData['description'] : null;
-        $newKebele->save();
-        return $newKebele;
+        $newGroupedGroup = new GroupedContact();
+        $newGroupedGroup->contact_id = isset($inputData['contact_id']) ? $inputData['contact_id'] : null;
+        $newGroupedGroup->contact_group_id = isset($inputData['contact_group_id']) ? $inputData['contact_group_id'] : null;
+        $newGroupedGroup->save();
+        return $newGroupedGroup;
     }
 
     public function updateItem($id, $updateData, $queryData = null)
@@ -80,7 +73,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
             $queryData = array();
         }
         $queryData['id'] = $id;
-        return Kebele::where(function ($query) use ($queryData) {
+        return GroupedContact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -93,7 +86,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where(function ($query) use ($queryData) {
+        return GroupedContact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -106,7 +99,7 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        return Kebele::where('id', '=', $id)->where(function ($query) use ($queryData) {
+        return GroupedContact::where('id', '=', $id)->where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
@@ -119,15 +112,15 @@ class KebeleRepository extends DefaultRepository implements DefaultInterface
         if ($queryData == null) {
             $queryData = array();
         }
-        $kebelesForDelete = Kebele::where(function ($query) use ($queryData) {
+        $groupedContactsForDelete = GroupedContact::where(function ($query) use ($queryData) {
             if ($queryData) {
                 $this->queryBuilder($query, $queryData);
             }
         }
         )->get();
-        foreach ($kebelesForDelete as $kebele) {
-            if ($kebele instanceof Kebele) {
-                $kebele->delete();
+        foreach ($groupedContactsForDelete as $groupedContacts) {
+            if ($groupedContacts instanceof GroupedContact) {
+                $groupedContacts->delete();
             }
         }
         return true;

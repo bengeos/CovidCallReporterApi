@@ -32,6 +32,8 @@ Route::group(['namespace' => 'LocationCtl'], function () {
     Route::patch('/region', 'RegionsController@updateRegion');
     Route::delete('/region/{id}', 'RegionsController@deleteRegion');
     //
+    Route::post('/import_state_csv', 'CsvImportController@importStateStructureCsv');
+    //
     Route::get('/zones/{id}', 'ZoneController@getZonesList');
     Route::get('/zones_paginated/{id}', 'ZoneController@getZonesPaginated');
     Route::post('/zone', 'ZoneController@createZone');

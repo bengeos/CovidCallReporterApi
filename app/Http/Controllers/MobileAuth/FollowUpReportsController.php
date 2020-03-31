@@ -35,7 +35,7 @@ class FollowUpReportsController
             }
             $contactGroup = ContactGroup::where('unique_code', '=', $credential['UNIQUE_CODE'])->first();
             if ($contactGroup instanceof ContactGroup) {
-                $assignedCallReportIds = AssignedCallReport::where('contact_group_id', '=', $contactGroup->id)->select('call_report_id')->first();
+                $assignedCallReportIds = AssignedCallReport::where('contact_group_id', '=', $contactGroup->id)->select('call_report_id')->get();
                 $callReports = CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types')
                     ->whereIn('id', $assignedCallReportIds)
                     ->paginate($credential['PAGINATE_SIZE']);

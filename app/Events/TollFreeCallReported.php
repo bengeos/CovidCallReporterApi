@@ -2,6 +2,9 @@
 
 namespace App\Events;
 
+use Str;
+use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use App\Models\{City, Kebele, Region, SubCity, Wereda, Zone};
 
@@ -21,51 +24,59 @@ class TollFreeCallReported
         // TODO: Find a better strategy
         $names = explode(' ', $this->data['full_name'], 3);
 
-        return [
+        return $this->stripNulls([
             'firstName' => $names[0],
             'middleName' => $names[1] ?? '',
             'lastName' => $names[2] ?? '',
 
-            'gender' => strtolower($this->data['gender']),
+            'age' => $this->data['age'],
+            'gender' => Str::title($this->data['gender']),
+
+            'reportRegion' => [
+                'id' => $this->data['report_region_id'],
+                'name' => Region::find($this->data['report_region_id'])->name ?? '',
+            ],
+
+            'region' => $this->serialize(Region::find($this->data['region_id'])),
+            'zone' => $this->serialize(Zone::find($this->data['zone_id'])),
+            'woreda' => $this->serialize(Wereda::find($this->data['wereda_id'])),
+            'city' => $this->serialize(City::find($this->data['city_id'])),
+            'subcity' => $this->serialize(SubCity::find($this->data['sub_city_id'])),
+            'kebele' => $this->serialize(Kebele::find($this->data['kebele_id'])),
+
+            'createdBy' => $this->serialize(User::find($this->data['created_by'])),
 
             'phoneNumber' => $this->data['phone'],
             'secondPhoneNumber' => $this->data['second_phone'],
 
-            'age' => $this->data['age'],
-
-            // FIXME: Need to be cached
-            'region' => Region::find($this->data['report_region_id'])->name,
-            'subcity' => SubCity::find($this->data['report_region_id'])->name,
-            'zone' => Zone::find($this->data['report_region_id'])->name,
-            'woreda' => Wereda::find($this->data['report_region_id'])->name,
-            'kebele' => Kebele::find($this->data['report_region_id'])->name,
-            'city' => City::find($this->data['report_region_id'])->name,
-
             'reportType' => $this->data['report_type'],
 
-            'travelHx' => array_key_exists($this->data, 'is_travel_hx'),
-            'haveSex' => array_key_exists($this->data, 'is_contacted_with_pt'),
-            'description' => array_key_exists($this->data, 'is_visited_animal'),
+            'description' => $this->data['description'],
 
-            // FIXME: figure this out ...
-            'rumorTypes' => [
-                [
-                    'id' => 2,
-                    'name' => 'Cough',
-                    'description' => null,
-                    'createdAt' => '2020-03-26 07=>57=>59',
-                    'updatedAt' => '2020-03-26 07=>57=>59',
-                    'deletedAt' => null
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Headache',
-                    'description' => null,
-                    'createdAt' => '2020-03-26 07=>57=>59',
-                    'updatedAt' => '2020-03-26 07=>57=>59',
-                    'deletedAt' => null
-                ]
-            ],
-        ];
+            'travelHx' => $this->data['is_travel_hx'] ?? false,
+            'haveSex' => $this->data['is_contacted_with_pt'] ?? false,
+            'visitedAnimal' => $this->data['is_visited_animal'] ?? false,
+            'visitedHf' => $this->data['is_visited_hf'] ?? false,
+
+            'rumorTypes' => $this->data['rumor_types'],
+        ]);
+    }
+
+    private function serialize(?Model $model)
+    {
+        return ($model) ? $model->jsonSerialize() : null;
+    }
+
+    private function stripNulls(?array $array)
+    {
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                $value = $this->stripNulls($value);
+            }
+        }
+
+        return array_filter($array, function ($value) {
+            return !is_null($value);
+        });
     }
 }

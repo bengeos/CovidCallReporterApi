@@ -90,8 +90,10 @@ class UsersController extends Controller
             if ($user->role_id > 1) {
                 $credential['region_id'] = $user->region_id;
                 $credential['call_center'] = $user->call_center;
+                $selectedRole = Role::where('id', '=', $credential['role_id'])->where('id', '>', $user->role_id)->first();
+            } else {
+                $selectedRole = Role::where('id', '=', $credential['role_id'])->where('id', '>=', $user->role_id)->first();
             }
-            $selectedRole = Role::where('id', '=', $credential['role_id'])->where('id', '>', $user->role_id)->first();
             if ($selectedRole instanceof Role) {
                 $newUser = $this->usersRepository->addNew($credential);
                 if ($newUser) {

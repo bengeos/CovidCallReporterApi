@@ -8,13 +8,10 @@ use App\Libs\Repositories\CallReportRepository;
 use App\Libs\Repositories\ContactGroupsRepository;
 use App\Models\AssignedCallReport;
 use App\Models\CallReport;
-use App\Models\CallReportRumor;
-use App\Models\CallRumorType;
 use App\Models\City;
 use App\Models\ContactGroup;
+use Auth;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class CallReportsController extends Controller
@@ -86,7 +83,7 @@ class CallReportsController extends Controller
             $query1 = array();
             $query1['created_by'] = $thisUser->id;
             $callReport = $this->callReportsRepo->getItem($credential['call_report_id']);
-            $contactGroup = $this->contactGroupRepo->getItem($credential['contact_group_id'], $query1);
+            $contactGroup = $this->contactGroupRepo->getItem($credential['contact_group_id']);
             if ($callReport instanceof CallReport && $contactGroup instanceof ContactGroup) {
                 $newAssignedCallReport = new AssignedCallReport();
                 $newAssignedCallReport->call_report_id = $callReport->id;

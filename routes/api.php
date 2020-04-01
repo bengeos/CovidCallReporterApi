@@ -80,6 +80,7 @@ Route::group(['namespace' => 'RapidResponses'], function () {
     // CallReports Section
     Route::get('/get_new_rapid_call_reports', 'CallReportsController@getNewRapidCallReportsPaginated');
     Route::get('/get_assigned_rapid_call_reports', 'CallReportsController@getNewRapidCallReportsPaginated');
+    Route::post('/assign_rapid_response_call_reports', 'CallReportsController@assignCallReport');
 });
 
 Route::group(['namespace' => 'FollowupResponses'], function () {

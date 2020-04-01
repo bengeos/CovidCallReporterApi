@@ -85,7 +85,7 @@ class CallReportsController extends Controller
             }
             $query1 = array();
             $query1['created_by'] = $thisUser->id;
-            $callReport = $this->callReportsRepo->getItem($credential['call_report_id'], $query1);
+            $callReport = $this->callReportsRepo->getItem($credential['call_report_id']);
             $contactGroup = $this->contactGroupRepo->getItem($credential['contact_group_id'], $query1);
             if ($callReport instanceof CallReport && $contactGroup instanceof ContactGroup) {
                 $newAssignedCallReport = new AssignedCallReport();

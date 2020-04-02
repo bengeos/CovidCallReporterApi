@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use App\Clients\{CognitoClient, ApiGatewayClient};
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,14 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('aws:toll-free', function (CognitoClient $cognitoClient) {
+    $token = $cognitoClient->getAccessToken();
+
+    $client = (new ApiGatewayClient($token))->getClient();
+
+    $result = $client->get('gateway/toll-free');
+
+    $this->alert($result->getStatusCode());
+    dump(json_decode($result->getBody()->getContents()));
+})->describe('Display the toll-free call report data');

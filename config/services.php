@@ -30,4 +30,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'aws' => [
+        'cognito' => [
+            'id' => env('AWS_COGNITO_CLIENT_ID'),
+            'secret' => env('AWS_COGNITO_CLIENT_SECRET'),
+            'endpoint' => env('AWS_COGNITO_AUTH_URL'),
+        ],
+
+        'api_gateway' => [
+            'endpoint' => env('AWS_API_GATEWAY_API_URL'),
+        ],
+    ]
 ];

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2921400c-625d-405f-8d5e-6aec3c725aa2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MobileAuth/FollowUpReportsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MobileAuth/FollowUpReportsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/CallReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/CallReport.php" afterDir="false" />
@@ -200,7 +201,7 @@
       <workItem from="1585723097645" duration="2056000" />
       <workItem from="1585747453216" duration="178000" />
       <workItem from="1585802415635" duration="249000" />
-      <workItem from="1585827718952" duration="9455000" />
+      <workItem from="1585827718952" duration="9769000" />
     </task>
     <servers />
   </component>

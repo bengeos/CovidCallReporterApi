@@ -9,7 +9,7 @@ class CallReportFollowup extends Model
 {
 //    use SoftDeletes;
 
-    public function symptom() {
-        return $this->belongsTo(SymptomType::class, 'symptom_type_id', 'id');
+    public function symptoms() {
+        return $this->hasMany(CallReportFollowupSymptom::class)->with('symptoms');
     }
 }

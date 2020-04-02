@@ -45,7 +45,7 @@ class CallReport extends Model
     }
 
     public function followups() {
-        return $this->hasMany(CallReportFollowup::class)->with('symptom');
+        return $this->hasMany(CallReportFollowup::class)->with('symptoms');
     }
 
 

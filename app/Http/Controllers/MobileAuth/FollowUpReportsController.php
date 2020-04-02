@@ -72,8 +72,7 @@ class FollowUpReportsController
             $credential['has_symptom'] = request()->input('has_symptom') ? request()->input('has_symptom') : null;
             $credential['temperature'] = request()->input('temperature') ? request()->input('temperature') : null;
             $credential['other'] = request()->input('other') ? request()->input('other') : null;
-            $rule = ['UNIQUE_CODE' => 'required', 'call_report_id' => 'required', 'symptom_type_ids' => 'required',
-                'has_symptom' => 'required', 'temperature' => 'required', 'other' => 'required'];
+            $rule = ['UNIQUE_CODE' => 'required', 'call_report_id' => 'required', 'symptom_type_ids' => 'required', 'has_symptom' => 'required', 'temperature' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
                 $error = $validator->messages();

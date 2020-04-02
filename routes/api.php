@@ -109,7 +109,7 @@ Route::group(['namespace' => 'Reports'], function () {
 Route::group(['namespace' => 'MobileAuth'], function () {
     Route::post('/mobile_authenticate', 'MobileAuthController@authenticate');
     Route::get('/get_follow_up_call_reports', 'FollowUpReportsController@getFollowUpCallReports');
-    Route::post('/get_follow_up_call_reports', 'FollowUpReportsController@getFollowUpCallReports');
+    Route::post('/create_call_report_follow_up', 'FollowUpReportsController@createCallReportFollowup');
 });
 
 Route::group(['namespace' => 'ContactGroups'], function () {
@@ -127,9 +127,6 @@ Route::group(['namespace' => 'ContactGroups'], function () {
     Route::delete('/grouped_contact/{id}', 'GroupedContactsController@deleteGroupedContact');
 });
 
-Route::group(['namespace' => 'TestCtl'], function () {
-    Route::get('/test', 'TestController@makeGetRequest');
-});
 
 Route::group(['namespace' => 'TestCtl'], function () {
     Route::get('/test', 'TestController@makeGetRequest');

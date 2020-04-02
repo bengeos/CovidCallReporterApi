@@ -44,5 +44,9 @@ class CallReport extends Model
         return $this->hasManyThrough(CallRumorType::class, CallReportRumor::class, 'call_report_id', 'id');
     }
 
+    public function followups() {
+        return $this->hasMany(CallReportFollowup::class)->with('symptom');
+    }
+
 
 }

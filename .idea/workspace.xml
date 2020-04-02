@@ -4,7 +4,8 @@
     <list default="true" id="2921400c-625d-405f-8d5e-6aec3c725aa2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MobileAuth/FollowUpReportsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MobileAuth/FollowUpReportsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_04_02_144401_create_call_report_followups_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_04_02_144401_create_call_report_followups_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/CallReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/CallReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/CallReportFollowup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/CallReportFollowup.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -199,7 +200,7 @@
       <workItem from="1585723097645" duration="2056000" />
       <workItem from="1585747453216" duration="178000" />
       <workItem from="1585802415635" duration="249000" />
-      <workItem from="1585827718952" duration="2353000" />
+      <workItem from="1585827718952" duration="3671000" />
     </task>
     <servers />
   </component>

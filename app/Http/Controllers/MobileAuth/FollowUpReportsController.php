@@ -37,7 +37,7 @@ class FollowUpReportsController
             $contactGroup = ContactGroup::where('unique_code', '=', $credential['UNIQUE_CODE'])->first();
             if ($contactGroup instanceof ContactGroup) {
                 $assignedCallReportIds = AssignedCallReport::where('contact_group_id', '=', $contactGroup->id)->select('call_report_id')->get();
-                $callReports = CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types')
+                $callReports = CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types', 'followups')
                     ->whereIn('id', $assignedCallReportIds)
                     ->paginate($credential['PAGINATE_SIZE']);
                 return response()->json(['status' => true, 'message' => 'assigned call-reports fetched successfully', 'result' => $callReports, 'error' => null], 200);
@@ -69,7 +69,7 @@ class FollowUpReportsController
             $contactGroup = ContactGroup::where('unique_code', '=', $credential['UNIQUE_CODE'])->first();
             if ($contactGroup instanceof ContactGroup) {
                 $assignedCallReportIds = AssignedCallReport::where('contact_group_id', '=', $contactGroup->id)->select('call_report_id')->get();
-                $callReport = CallReport::whereIn('id', $assignedCallReportIds)->where('call_report_id', '=', $credential['call_report_id'])->first();
+                $callReport = CallReport::whereIn('id', $assignedCallReportIds)->where('id', '=', $credential['call_report_id'])->first();
                 if ($callReport instanceof CallReport) {
                     $newCallReportFollowUp = new CallReportFollowup();
                     $newCallReportFollowUp->call_report_id = $callReport->id;

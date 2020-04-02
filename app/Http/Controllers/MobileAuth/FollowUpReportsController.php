@@ -8,6 +8,8 @@ use App\Models\AssignedCallReport;
 use App\Models\CallReport;
 use App\Models\CallReportFollowup;
 use App\Models\ContactGroup;
+use App\Models\SymptomType;
+use Illuminate\Auth\Access\AuthorizationException;
 use Validator;
 
 class FollowUpReportsController
@@ -19,6 +21,15 @@ class FollowUpReportsController
     public function __construct()
     {
 
+    }
+
+    public function getSymptoms() {
+        try {
+            $symptoms = SymptomType::all();
+            return response()->json(['status' => true, 'message' => 'symptoms fetched successfully', 'result' => $symptoms, 'error' => null], 200);
+        } catch (AuthorizationException $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
+        }
     }
 
     public function getFollowUpCallReports()

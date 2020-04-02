@@ -108,6 +108,7 @@ Route::group(['namespace' => 'Reports'], function () {
 
 Route::group(['namespace' => 'MobileAuth'], function () {
     Route::post('/mobile_authenticate', 'MobileAuthController@authenticate');
+    Route::get('/get_symptoms', 'FollowUpReportsController@getSymptoms');
     Route::get('/get_follow_up_call_reports', 'FollowUpReportsController@getFollowUpCallReports');
     Route::post('/create_call_report_follow_up', 'FollowUpReportsController@createCallReportFollowup');
 });

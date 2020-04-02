@@ -4,8 +4,6 @@
     <list default="true" id="2921400c-625d-405f-8d5e-6aec3c725aa2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MobileAuth/FollowUpReportsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MobileAuth/FollowUpReportsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/CallReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/CallReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/CallReportFollowup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/CallReportFollowup.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -200,7 +198,7 @@
       <workItem from="1585723097645" duration="2056000" />
       <workItem from="1585747453216" duration="178000" />
       <workItem from="1585802415635" duration="249000" />
-      <workItem from="1585827718952" duration="3671000" />
+      <workItem from="1585827718952" duration="4373000" />
     </task>
     <servers />
   </component>
@@ -220,10 +218,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="722" y="187" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1584544434326" />
-    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1585723555981">
+    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1585834240095">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1585723555981" />
+    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1585834240095" />
     <state width="1878" height="325" key="GridCell.Tab.0.bottom" timestamp="1584853028467">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -248,9 +246,9 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="461" y="239" key="SettingsEditor/0.0.1920.1200@0.0.1920.1200" timestamp="1584542545918" />
-    <state x="625" y="271" width="670" height="676" key="search.everywhere.popup" timestamp="1585723178473">
+    <state x="625" y="271" width="670" height="676" key="search.everywhere.popup" timestamp="1585834268353">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="625" y="271" width="670" height="676" key="search.everywhere.popup/0.0.1920.1200@0.0.1920.1200" timestamp="1585723178473" />
+    <state x="625" y="271" width="670" height="676" key="search.everywhere.popup/0.0.1920.1200@0.0.1920.1200" timestamp="1585834268352" />
   </component>
 </project>

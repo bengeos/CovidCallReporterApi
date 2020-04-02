@@ -16,7 +16,7 @@ class CreateCallReportFollowupsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('call_report_id');
             $table->unsignedBigInteger('symptom_type_id');
-            $table->boolean('has_symptom')->default(false);
+            $table->boolean('has_symptom')->default(false)->nullable();
             $table->float('temperature')->default(null)->nullable();
             $table->longText('other')->nullable();
             $table->timestamps();

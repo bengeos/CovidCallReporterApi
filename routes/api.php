@@ -130,3 +130,7 @@ Route::group(['namespace' => 'ContactGroups'], function () {
 Route::group(['namespace' => 'TestCtl'], function () {
     Route::get('/test', 'TestController@makeGetRequest');
 });
+
+Route::group(['namespace' => 'TestCtl'], function () {
+    Route::get('/test', 'TestController@makeGetRequest');
+});

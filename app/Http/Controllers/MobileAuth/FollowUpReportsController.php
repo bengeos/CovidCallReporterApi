@@ -7,6 +7,7 @@ namespace App\Http\Controllers\MobileAuth;
 use App\Models\AssignedCallReport;
 use App\Models\CallReport;
 use App\Models\CallReportFollowup;
+use App\Models\CallReportFollowupSymptom;
 use App\Models\ContactGroup;
 use App\Models\SymptomType;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -23,7 +24,8 @@ class FollowUpReportsController
 
     }
 
-    public function getSymptoms() {
+    public function getSymptoms()
+    {
         try {
             $symptoms = SymptomType::all();
             return response()->json(['status' => true, 'message' => 'symptoms fetched successfully', 'result' => $symptoms, 'error' => null], 200);
@@ -66,11 +68,11 @@ class FollowUpReportsController
             $credential = array();
             $credential['UNIQUE_CODE'] = request()->input('UNIQUE_CODE') ? request()->input('UNIQUE_CODE') : null;
             $credential['call_report_id'] = request()->input('call_report_id') ? request()->input('call_report_id') : null;
-            $credential['symptom_type_id'] = request()->input('symptom_type_id') ? request()->input('symptom_type_id') : null;
+            $credential['symptom_type_ids'] = request()->input('symptom_type_ids') ? request()->input('symptom_type_ids') : [];
             $credential['has_symptom'] = request()->input('has_symptom') ? request()->input('has_symptom') : null;
             $credential['temperature'] = request()->input('temperature') ? request()->input('temperature') : null;
             $credential['other'] = request()->input('other') ? request()->input('other') : null;
-            $rule = ['UNIQUE_CODE' => 'required', 'call_report_id' => 'required', 'symptom_type_id' => 'required',
+            $rule = ['UNIQUE_CODE' => 'required', 'call_report_id' => 'required', 'symptom_type_ids' => 'required',
                 'has_symptom' => 'required', 'temperature' => 'required', 'other' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {
@@ -84,11 +86,19 @@ class FollowUpReportsController
                 if ($callReport instanceof CallReport) {
                     $newCallReportFollowUp = new CallReportFollowup();
                     $newCallReportFollowUp->call_report_id = $callReport->id;
-                    $newCallReportFollowUp->symptom_type_id = $credential['symptom_type_id'];
                     $newCallReportFollowUp->has_symptom = isset($credential['has_symptom']) ? $credential['has_symptom'] : null;
                     $newCallReportFollowUp->temperature = isset($credential['temperature']) ? $credential['temperature'] : null;
                     $newCallReportFollowUp->other = isset($credential['other']) ? $credential['other'] : null;
                     if ($newCallReportFollowUp->save()) {
+                        if (isset($credential['symptom_type_ids'])) {
+                            $symptoms = isset($credential['symptom_type_ids']) ? $credential['symptom_type_ids'] : [];
+                            foreach ($symptoms as $symptom) {
+                                $callReportFollowUpSymptom = new CallReportFollowupSymptom();
+                                $callReportFollowUpSymptom->call_report_followup_id = $newCallReportFollowUp->id;
+                                $callReportFollowUpSymptom->symptom_type_id = $symptom['id'];
+                                $callReportFollowUpSymptom->save();
+                            }
+                        }
                         return response()->json(['status' => true, 'message' => 'assigned call-reports fetched successfully', 'result' => $newCallReportFollowUp, 'error' => null], 200);
                     } else {
                         return response()->json(['status' => false, 'message' => 'whoops! unable to save followup report', 'result' => null, 'error' => 'unable to save followup report'], 500);

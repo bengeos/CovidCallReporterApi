@@ -15,11 +15,11 @@ class CreateCallReportFollowupsTable extends Migration
         Schema::create('call_report_followups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('call_report_id');
-            $table->unsignedBigInteger('symptom_type_id');
             $table->boolean('has_symptom')->default(false)->nullable();
             $table->float('temperature')->default(null)->nullable();
             $table->longText('other')->nullable();
             $table->timestamps();
+            $table->foreign('call_report_id')->references('id')->on('call_reports')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

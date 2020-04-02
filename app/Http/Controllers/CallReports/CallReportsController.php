@@ -63,7 +63,6 @@ class CallReportsController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
-            $callReportData = array();
             $credential['created_by'] = $thisUser->id;
             $credential['report_region_id'] = $thisUser->region_id;
             $newReport = $this->callReportsRepo->addNew($credential);

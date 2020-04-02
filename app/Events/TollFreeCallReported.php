@@ -30,28 +30,28 @@ class TollFreeCallReported
             'lastName' => $names[2] ?? '',
 
             'age' => $this->data['age'] ?? '',
-            'gender' => Str::title($this->data['gender']),
+            'gender' => Str::title($this->data['gender'] ?? ''),
 
             'reportRegion' => [
-                'id' => $this->data['report_region_id'],
-                'name' => Region::find($this->data['report_region_id'])->name ?? '',
+                'id' => $this->data['report_region_id'] ?? null,
+                'name' => Region::findOrNew($this->data['report_region_id'] ?? '')->name ?? '',
             ],
 
-            'region' => $this->serialize(Region::find($this->data['region_id'])),
-            'zone' => $this->serialize(isset($this->data['zone_id']) ? Zone::find($this->data['zone_id']) : null),
-            'woreda' => $this->serialize(isset($this->data['wereda_id']) ? Wereda::find($this->data['wereda_id']) : null),
-            'city' => $this->serialize(isset($this->data['city_id']) ? City::find($this->data['city_id']) : null),
-            'subcity' => $this->serialize(isset($this->data['sub_city_id']) ? SubCity::find($this->data['sub_city_id']) : null),
-            'kebele' => $this->serialize(isset($this->data['kebele_id']) ? Kebele::find($this->data['kebele_id']) : null),
+            'region' => $this->dynamicFind(Region::class, 'region_id'),
+            'zone' => $this->dynamicFind(Zone::class, 'zone_id'),
+            'woreda' => $this->dynamicFind(Wereda::class, 'wereda_id'),
+            'city' => $this->dynamicFind(City::class, 'city_id'),
+            'subcity' => $this->dynamicFind(SubCity::class, 'sub_city_id'),
+            'kebele' => $this->dynamicFind(Kebele::class, 'kebele_id'),
 
-            'createdBy' => $this->serialize(isset($this->data['created_by']) ? User::find($this->data['created_by']) : null),
+            'createdBy' => $this->dynamicFind(User::class, 'created_by'),
 
-            'phoneNumber' => isset($this->data['phone']) ? $this->data['phone'] : null,
-            'secondPhoneNumber' => isset($this->data['second_phone']) ? $this->data['second_phone'] : null,
+            'phoneNumber' => $this->data['phone'] ?? null,
+            'secondPhoneNumber' => $this->data['second_phone'] ?? null,
 
-            'reportType' => isset($this->data['report_type']) ? $this->data['report_type'] : null,
+            'reportType' => $this->data['report_type'] ?? null,
 
-            'description' => isset($this->data['description']) ? $this->data['description'] : null,
+            'description' => $this->data['description'] ?? null,
 
             'travelHx' => $this->data['is_travel_hx'] ?? false,
             'haveSex' => $this->data['is_contacted_with_pt'] ?? false,
@@ -62,9 +62,16 @@ class TollFreeCallReported
         ]);
     }
 
-    private function serialize(?Model $model)
+    private function dynamicFind(string $class, string $id): ?array
     {
-        return ($model) ? $model->jsonSerialize() : null;
+        if ($this->isValidEloquentClass($class) && isset($this->data[$id])) {
+            /** @var Model $model */
+            $model = $class::find($this->data[$id]);
+
+            if ($model) return $model->jsonSerialize();
+        }
+
+        return null;
     }
 
     private function stripNulls(?array $array)
@@ -78,5 +85,10 @@ class TollFreeCallReported
         return array_filter($array, function ($value) {
             return !is_null($value);
         });
+    }
+
+    private function isValidEloquentClass(string $class): bool
+    {
+        return class_exists($class) && is_subclass_of($class, Model::class);
     }
 }

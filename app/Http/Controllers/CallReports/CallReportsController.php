@@ -63,6 +63,7 @@ class CallReportsController extends Controller
                 $error = $validator->messages();
                 return response()->json(['status' => false, 'message' => 'please provide necessary information', 'result' => null, 'error' => $error], 500);
             }
+            $callReportData = array();
             $credential['created_by'] = $thisUser->id;
             $credential['report_region_id'] = $thisUser->region_id;
             $newReport = $this->callReportsRepo->addNew($credential);
@@ -79,15 +80,11 @@ class CallReportsController extends Controller
                         }
                     }
                 }
-
-                event(new TollFreeCallReported($credential));
-
+//                event(new TollFreeCallReported($credential));
                 return response()->json(['status' => true, 'message' => 'call-reports created successfully', 'result' => $newReport, 'error' => null], 200);
             } else {
                 return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => 'something went wrong! try again'], 500);
             }
-        } catch (AuthorizationException $e) {
-            return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         } catch (\Exception $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
         }
@@ -126,8 +123,7 @@ class CallReportsController extends Controller
             $this->authorize('delete', new CallReport());
             $thisUser = Auth::guard('api')->user();
             $queryData = array();
-            $queryData['id!=:V'] = $thisUser->id;
-            $queryData['id=:V'] = 0;
+            $queryData['created_by!=:V'] = $thisUser->id;
             $status = $this->callReportsRepo->deleteItem($id, $queryData);
             if ($status) {
                 return response()->json(['status' => true, 'message' => 'call-report deleted successfully', 'result' => null, 'error' => null], 200);

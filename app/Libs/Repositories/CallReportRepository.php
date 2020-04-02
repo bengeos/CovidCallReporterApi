@@ -123,6 +123,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
 
     public function addNew($inputData)
     {
+
         $newCallReport = new CallReport();
         $newCallReport->region_id = isset($inputData['region_id']) ? $inputData['region_id'] : null;
         $newCallReport->zone_id = isset($inputData['zone_id']) ? $inputData['zone_id'] : null;
@@ -143,8 +144,11 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         $newCallReport->is_visited_animal = isset($inputData['is_visited_animal']) ? $inputData['is_visited_animal'] : false;
         $newCallReport->is_visited_hf = isset($inputData['is_visited_hf']) ? $inputData['is_visited_hf'] : false;
         $newCallReport->created_by = isset($inputData['created_by']) ? $inputData['created_by'] : null;
-        $newCallReport->save();
-        return $newCallReport;
+        if($newCallReport->save()) {
+            return $newCallReport;
+        } else {
+            return null;
+        }
     }
 
     public function updateItem($id, $updateData, $queryData = null)

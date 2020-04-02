@@ -29,7 +29,7 @@ class TollFreeCallReported
             'middleName' => $names[1] ?? '',
             'lastName' => $names[2] ?? '',
 
-            'age' => $this->data['age'],
+            'age' => $this->data['age'] ?? '',
             'gender' => Str::title($this->data['gender']),
 
             'reportRegion' => [
@@ -38,27 +38,27 @@ class TollFreeCallReported
             ],
 
             'region' => $this->serialize(Region::find($this->data['region_id'])),
-            'zone' => $this->serialize(Zone::find($this->data['zone_id'])),
-            'woreda' => $this->serialize(Wereda::find($this->data['wereda_id'])),
-            'city' => $this->serialize(City::find($this->data['city_id'])),
-            'subcity' => $this->serialize(SubCity::find($this->data['sub_city_id'])),
-            'kebele' => $this->serialize(Kebele::find($this->data['kebele_id'])),
+            'zone' => $this->serialize(isset($this->data['zone_id']) ? Zone::find($this->data['zone_id']) : null),
+            'woreda' => $this->serialize(isset($this->data['wereda_id']) ? Wereda::find($this->data['wereda_id']) : null),
+            'city' => $this->serialize(isset($this->data['city_id']) ? City::find($this->data['city_id']) : null),
+            'subcity' => $this->serialize(isset($this->data['sub_city_id']) ? SubCity::find($this->data['sub_city_id']) : null),
+            'kebele' => $this->serialize(isset($this->data['kebele_id']) ? Kebele::find($this->data['kebele_id']) : null),
 
-            'createdBy' => $this->serialize(User::find($this->data['created_by'])),
+            'createdBy' => $this->serialize(isset($this->data['created_by']) ? User::find($this->data['created_by']) : null),
 
-            'phoneNumber' => $this->data['phone'],
-            'secondPhoneNumber' => $this->data['second_phone'],
+            'phoneNumber' => isset($this->data['phone']) ? $this->data['phone'] : null,
+            'secondPhoneNumber' => isset($this->data['second_phone']) ? $this->data['second_phone'] : null,
 
-            'reportType' => $this->data['report_type'],
+            'reportType' => isset($this->data['report_type']) ? $this->data['report_type'] : null,
 
-            'description' => $this->data['description'],
+            'description' => isset($this->data['description']) ? $this->data['description'] : null,
 
             'travelHx' => $this->data['is_travel_hx'] ?? false,
             'haveSex' => $this->data['is_contacted_with_pt'] ?? false,
             'visitedAnimal' => $this->data['is_visited_animal'] ?? false,
             'visitedHf' => $this->data['is_visited_hf'] ?? false,
 
-            'rumorTypes' => $this->data['rumor_types'],
+            'rumorTypes' => $this->data['rumor_types'] ?? null,
         ]);
     }
 

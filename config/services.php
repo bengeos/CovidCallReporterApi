@@ -40,5 +40,12 @@ return [
         'api_gateway' => [
             'endpoint' => env('AWS_API_GATEWAY_API_URL'),
         ],
+    ],
+    'jsi' => [
+        'api_gateway' => [
+            'endpoint' => env('JSI_API_GATEWAY_API_URL'),
+        ],
     ]
+
+
 ];

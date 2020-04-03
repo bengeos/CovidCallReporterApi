@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\TollFreeCallReported;
+use App\Jobs\JsiDataSyncs\PushCallReportToJsi;
 use App\Listeners\SendTollFreeCallReport;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;

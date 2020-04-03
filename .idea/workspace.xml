@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2921400c-625d-405f-8d5e-6aec3c725aa2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Clients/JsiGatewayClient.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/GatewayPushers/ParentPushJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/GatewayPushers/ParentPushJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/SendTollFreeCallReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/SendTollFreeCallReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +203,7 @@
       <workItem from="1585802415635" duration="249000" />
       <workItem from="1585827718952" duration="9769000" />
       <workItem from="1585857747891" duration="630000" />
-      <workItem from="1585886599695" duration="2369000" />
+      <workItem from="1585886599695" duration="4905000" />
     </task>
     <servers />
   </component>
@@ -218,10 +223,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state x="722" y="187" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1584544434326" />
-    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1585834240095">
+    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1585911560313">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1585834240095" />
+    <state x="698" y="362" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1585911560313" />
     <state width="1878" height="325" key="GridCell.Tab.0.bottom" timestamp="1584853028467">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
@@ -238,10 +243,10 @@
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
     <state width="1878" height="325" key="GridCell.Tab.0.right/0.0.1920.1200@0.0.1920.1200" timestamp="1584853028466" />
-    <state x="528" y="407" key="NewPhpClassDialog" timestamp="1585553901612">
+    <state x="528" y="407" key="NewPhpClassDialog" timestamp="1585911240929">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state x="528" y="407" key="NewPhpClassDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1585553901612" />
+    <state x="528" y="407" key="NewPhpClassDialog/0.0.1920.1200@0.0.1920.1200" timestamp="1585911240929" />
     <state x="461" y="239" key="SettingsEditor" timestamp="1584542545918">
       <screen x="0" y="0" width="1920" height="1200" />
     </state>

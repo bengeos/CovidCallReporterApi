@@ -1,35 +1,40 @@
 <?php
 
-namespace App\Jobs\GatewayPushers;
+namespace App\Jobs\JsiDataSyncs;
 
 use App\Clients\ApiGatewayClient;
-use App\Clients\CognitoClient;
+use App\Clients\JsiGatewayClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Log\Logger;
 
-abstract class ParentPushJob implements ShouldQueue
+abstract class JsiDataSync implements ShouldQueue
 {
     use Dispatchable, Queueable;
-
     private $data;
 
+    /**
+     * Create a new job instance.
+     *
+     * @param array $data
+     */
     public function __construct(array $data)
     {
         $this->data = $data;
     }
 
-    public function handle(CognitoClient $congnito, Logger $logger)
+    /**
+     * Execute the job.
+     *
+     * @param Logger $logger
+     * @return void
+     */
+    public function handle(Logger $logger)
     {
-//        $token = $congnito->getAccessToken();
-        $token = "26874263847234";
-
-        $client = (new ApiGatewayClient($token))->getClient();
-
+        $client = (new JsiGatewayClient())->getClient();
         $response = $client->request($this->method(), $this->endPoint(), ['json' => $this->data]);
-
-        $logger->alert('AWS API Gateway Response', [
+        $logger->alert('JSI API Gateway Response', [
             'method' => $this->method(),
             'url' => $this->endPoint(),
             'data' => $this->data,

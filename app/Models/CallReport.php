@@ -48,5 +48,9 @@ class CallReport extends Model
         return $this->hasMany(CallReportFollowup::class)->with('symptoms');
     }
 
+    public function assigned_team() {
+        return $this->hasone(AssignedCallReport::class)->with('contact_group');
+    }
+
 
 }

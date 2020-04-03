@@ -3,28 +3,31 @@
 namespace App\Http\Controllers\RapidResponses;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\FollowupReportTasks\SendMessageToAssignedFollowUpReportTask;
 use App\Jobs\RapidResponseTasks\SendMessageToAssignedRapidResponseTeam;
 use App\Libs\Repositories\CallReportRepository;
+use App\Libs\Repositories\ContactGroupsRepository;
 use App\Models\AssignedCallReport;
 use App\Models\CallReport;
-use App\Models\City;
 use App\Models\ContactGroup;
+use Auth;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class CallReportsController extends Controller
 {
     protected $callReportsRepo;
+    protected $contactGroupRepo;
+
     /**
      * CallReportsController constructor.
      * @param CallReportRepository $repository
+     * @param ContactGroupsRepository $contactGroupsRepository
      */
-    public function __construct(CallReportRepository $repository)
+    public function __construct(CallReportRepository $repository, ContactGroupsRepository $contactGroupsRepository)
     {
         $this->middleware('auth:api');
         $this->callReportsRepo = $repository;
+        $this->contactGroupRepo = $contactGroupsRepository;
     }
 
     public function getNewRapidCallReportsPaginated()
@@ -38,7 +41,25 @@ class CallReportsController extends Controller
                 $query['report_region_id'] = $thisUser->region_id;
             }
             $query['report_group_id'] = 1;
-            $reports = $this->callReportsRepo->getAllPaginated($PAGINATE_NUM, $query);
+            $reports = $this->callReportsRepo->getNotAssigned($PAGINATE_NUM, $query);
+            return response()->json(['status' => true, 'message' => 'rrt reports fetched successfully', 'result' => $reports, 'error' => null], 200);
+        } catch (AuthorizationException $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);
+        }
+    }
+
+    public function getOldRapidCallReportsPaginated()
+    {
+        try {
+            $PAGINATE_NUM = request()->input('PAGINATE_SIZE') ? request()->input('PAGINATE_SIZE') : 10;
+            $this->authorize('view', new CallReport());
+            $thisUser = Auth::guard('api')->user();
+            $query = array();
+            if ($thisUser->role_id != 1) {
+                $query['report_region_id'] = $thisUser->region_id;
+            }
+            $query['report_group_id'] = 1;
+            $reports = $this->callReportsRepo->getAssigned($PAGINATE_NUM, $query);
             return response()->json(['status' => true, 'message' => 'rrt reports fetched successfully', 'result' => $reports, 'error' => null], 200);
         } catch (AuthorizationException $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage(), 'result' => null, 'error' => $e->getCode()], 500);

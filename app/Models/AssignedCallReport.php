@@ -12,4 +12,8 @@ class AssignedCallReport extends Model
         'FOLLOWUP_RESPONSE_TEAM' => 'FOLLOWUP_RESPONSE_TEAM'
         , 'RAPID_RESPONSE_TEAM' => 'RAPID_RESPONSE_TEAM'
         , 'DISCARDED_RESPONSE_TEAM' => 'DISCARDED_RESPONSE_TEAM'];
+
+    public function contact_group() {
+        return $this->belongsTo(ContactGroup::class);
+    }
 }

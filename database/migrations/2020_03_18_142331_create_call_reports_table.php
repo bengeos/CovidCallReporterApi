@@ -28,6 +28,7 @@ class CreateCallReportsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('second_phone')->nullable();
             $table->string('occupation')->nullable();
+            $table->string('address')->nullable();
             $table->string('caller_type')->nullable();
             $table->string('other')->nullable();
             $table->string('report_type')->nullable();

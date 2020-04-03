@@ -83,7 +83,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         if ($queryData == null) {
             $queryData = array();
         }
-        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types')
+        return CallReport::with('region', 'zone', 'wereda', 'city', 'sub_city', 'kebele', 'created_by', 'rumor_types', 'assigned_team')
             ->where(function ($query) use ($queryData) {
                 $this->queryBuilder($query, $queryData);
             })
@@ -138,6 +138,7 @@ class CallReportRepository extends DefaultRepository implements CallReportInterf
         $newCallReport->phone = isset($inputData['phone']) ? $inputData['phone'] : null;
         $newCallReport->second_phone = isset($inputData['second_phone']) ? $inputData['second_phone'] : null;
         $newCallReport->occupation = isset($inputData['occupation']) ? $inputData['occupation'] : null;
+        $newCallReport->address = isset($inputData['address']) ? $inputData['address'] : null;
         $newCallReport->other = isset($inputData['other']) ? $inputData['other'] : null;
         $newCallReport->is_travel_hx = isset($inputData['is_travel_hx']) ? $inputData['is_travel_hx'] : false;
         $newCallReport->is_contacted_with_pt = isset($inputData['is_contacted_with_pt']) ? $inputData['is_contacted_with_pt'] : false;

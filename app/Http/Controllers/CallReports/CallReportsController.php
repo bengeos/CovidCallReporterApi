@@ -94,7 +94,7 @@ class CallReportsController extends Controller
         try {
             $this->authorize('update', new CallReport());
             $thisUser = Auth::guard('api')->user();
-            $credential = request()->only('id', 'region_id', 'zone_id', 'city_id', 'sub_city_id', 'kebele_id', 'full_name', 'age', 'phone', 'second_phone', 'occupation', 'callerType', 'other', 'report_type', 'description');
+            $credential = request()->only('id', 'region_id', 'zone_id', 'city_id', 'sub_city_id', 'kebele_id', 'full_name', 'age', 'phone', 'second_phone', 'occupation', 'address', 'callerType', 'other', 'report_type', 'description');
             $rule = ['id' => 'required'];
             $validator = Validator::make($credential, $rule);
             if ($validator->fails()) {

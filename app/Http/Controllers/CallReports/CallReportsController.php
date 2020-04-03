@@ -79,7 +79,7 @@ class CallReportsController extends Controller
                         }
                     }
                 }
-//                event(new TollFreeCallReported($credential));
+                event(new TollFreeCallReported($credential));
                 return response()->json(['status' => true, 'message' => 'call-reports created successfully', 'result' => $newReport, 'error' => null], 200);
             } else {
                 return response()->json(['status' => false, 'message' => 'whoops! something went wrong! try again', 'result' => null, 'error' => 'something went wrong! try again'], 500);
